@@ -1,0 +1,35 @@
+<div *ngIf="cards">
+    <div 
+    class="card"
+    *ngFor="let card of cards; let i = index" 
+    (click)="activateCard(i)"
+    [ngStyle]="{'transform': 'translateY(' + (i > activeCard ? (cards[activeCard].tasks.length + 1)*30+30 : 0) + 'px)'}">
+        
+        <!-- <app-card [card]="card"></app-card> -->
+
+        <!-- <div class="card-container"> -->
+            <div class="card-header">
+                <h2 [ngStyle]="{'color': card.color}">{{ card.title }}</h2>
+                <div class="delete-button">
+                </div>
+            </div>
+            <div class="card-list">
+                <!-- <ul>
+                    <li *ngFor="let task of card.tasks">{{ task.value }}</li>
+                </ul> -->
+                <label 
+                class="container" 
+                *ngFor="let task of card.tasks">
+                    {{ task.value }}
+                    <input type="checkbox" >
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        <!-- </div> -->
+    </div>
+</div>
+<div *ngIf="cards.length == 0" id="empty-lists">
+    <img src="/assets/Ballot-peep.png" alt="Illustration of a hand holding a list">
+    <h2>No lists yet :(</h2>
+    <p>When you're ready, tap the plus icon to add a list</p>
+</div>
