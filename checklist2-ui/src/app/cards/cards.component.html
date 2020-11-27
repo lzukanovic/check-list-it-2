@@ -24,15 +24,19 @@
                 </span>
             </label> -->
 
-            <div class="container2" 
-                *ngFor="let task of card.tasks; let i = index"
-                (click)="checkTask(i, $event)"
-                [class.checked]="task.isChecked">
-                <div class="checkbox2"></div>
-                <div class="checkbox-body2"></div>
-                <div class="checkbox-text2">
-                    {{ task.value }}
+            <div 
+            class="container2" 
+            *ngFor="let task of card.tasks; let i = index"
+            [class.checked]="task.isChecked">
+                <div class="checkbox-container" (click)="checkTask(i, $event)">
+                    <div class="checkbox2"></div>
+                    <div class="checkbox-body2"></div>
                 </div>
+                <textarea 
+                autosize [minRows]="1"
+                [attr.disabled]="task.isChecked ? 'disabled' : null"
+                spellcheck="false"
+                #taskInput>{{ task.value }}</textarea>
             </div>
 
         </div>

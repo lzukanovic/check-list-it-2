@@ -73,7 +73,7 @@
             cursor: pointer;
             display: flex;
             font-size: 20px;
-            margin-bottom: 1.3em;
+            margin-bottom: 0.5em;
             position: relative;
 
             .checkbox2 {
@@ -81,7 +81,6 @@
                 border-radius: 8px;
                 height: 16px;
                 min-height: 16px;
-                // margin-bottom: 0.4em;
                 margin-right: 1em;
                 width: 16px;
                 min-width: 16px;
@@ -90,6 +89,19 @@
             .checkbox-body2 {
                 display: none;
                 position: absolute;
+            }
+
+            textarea {
+                flex: 1; 
+                background-color: var(--card-bg);
+                // background-color: black;
+                border: none;
+                color: var(--text);
+                font-family: inherit;
+                font-size: inherit;
+                outline: none;
+                padding: 0;
+                resize: none;
             }
             
         }
@@ -110,7 +122,7 @@
                 width: 10px;
             }
 
-            .checkbox-text2 {
+            textarea {
                 color: var(--muted-text);
                 text-decoration: line-through;
             }
