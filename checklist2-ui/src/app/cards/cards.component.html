@@ -4,28 +4,38 @@
     *ngFor="let card of cards; let i = index" 
     (click)="activateCard(i)"
     [ngStyle]="{'transform': 'translateY(' + (i > activeCard ? (cards[activeCard].tasks.length + 1)*30+30 : 0) + 'px)'}">
-        
-        <!-- <app-card [card]="card"></app-card> -->
 
-        <!-- <div class="card-container"> -->
-            <div class="card-header">
-                <h2 [ngStyle]="{'color': card.color}">{{ card.title }}</h2>
-                <div class="delete-button">
+        <div class="card-header">
+            <h2 [ngStyle]="{'color': card.color}">{{ card.title }}</h2>
+            <div class="delete-button">
+                <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </div>
+        </div>
+        <div class="card-list">
+
+            <!-- <label 
+            class="container"
+            (click)="checkTask(i)"
+            *ngFor="let task of card.tasks; let i = index">
+                {{ task.value }}:{{ task.isChecked }}
+                <input type="checkbox" >
+                <span class="checkmark">
+                    <span class="checkmark-body"></span>
+                </span>
+            </label> -->
+
+            <div class="container2" 
+                *ngFor="let task of card.tasks; let i = index"
+                (click)="checkTask(i, $event)"
+                [class.checked]="task.isChecked">
+                <div class="checkbox2"></div>
+                <div class="checkbox-body2"></div>
+                <div class="checkbox-text2">
+                    {{ task.value }}
                 </div>
             </div>
-            <div class="card-list">
-                <!-- <ul>
-                    <li *ngFor="let task of card.tasks">{{ task.value }}</li>
-                </ul> -->
-                <label 
-                class="container" 
-                *ngFor="let task of card.tasks">
-                    {{ task.value }}
-                    <input type="checkbox" >
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-        <!-- </div> -->
+
+        </div>
     </div>
 </div>
 <div *ngIf="cards.length == 0" id="empty-lists">
