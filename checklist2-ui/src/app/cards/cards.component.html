@@ -26,9 +26,9 @@
 
             <div 
             class="container2" 
-            *ngFor="let task of card.tasks; let i = index"
+            *ngFor="let task of card.tasks; let j = index"
             [class.checked]="task.isChecked">
-                <div class="checkbox-container" (click)="checkTask(i, $event)">
+                <div class="checkbox-container" (click)="checkTask(j, $event)">
                     <div class="checkbox2"></div>
                     <div class="checkbox-body2"></div>
                 </div>
@@ -39,14 +39,16 @@
                 (click)="preventClick($event)">{{ task.value }}</textarea>
             </div>
 
-            <div class="container2 default">
-                <div class="checkbox-container">
+            <div class="container2 default" [class.focus]="activeNewTask">
+                <div class="checkbox-container" #newTaskBox>
                     <div class="checkbox2"></div>
                 </div>
                 <textarea 
                 autosize [minRows]="1"
                 spellcheck="false" 
                 placeholder="Write a new task"
+                (focus)="activateNewTask()"
+                (focusout)="activateNewTask()"
                 (click)="preventClick($event)"></textarea>
             </div>
 

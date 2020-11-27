@@ -129,9 +129,25 @@
         }
 
         .container2.default {
+            
+            &.focus {
+                .checkbox2 {
+                    border-color: var(--text);
+                }
 
+                textarea {
+                    color: var(--text);
+                }
+            }
+            
             .checkbox2 {
                 border-color: var(--muted-text);
+                transition: 0.3s;
+            }
+
+            textarea {
+                color: var(--muted-text);
+                transition: 0.3s;
             }
 
             ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -139,11 +155,11 @@
                 opacity: 1;
             }
             :-ms-input-placeholder { /* Internet Explorer 10-11 */
-                color: red;
+                color: var(--muted-text);
             }
             
             ::-ms-input-placeholder { /* Microsoft Edge */
-                color: red;
+                color: var(--muted-text);
             }
         }
 

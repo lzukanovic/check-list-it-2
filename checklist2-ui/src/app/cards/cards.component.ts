@@ -52,8 +52,10 @@ export class CardsComponent implements OnInit {
         }
     ];
     activeCard = this.cards.length - 1;
+    activeNewTask = false;
     faTrashAlt = faTrashAlt;
-    @ViewChildren('cardList') cardListViewChildren: QueryList<any>;
+    @ViewChildren('cardList') cardListViewChildren: QueryList<ElementRef>;
+    @ViewChildren('newTaskBox') newTaskBoxViewChildren: QueryList<ElementRef>;
     moveY = 0;
 
     constructor() { }
@@ -87,6 +89,10 @@ export class CardsComponent implements OnInit {
     preventClick(event: Event): void {
         event.preventDefault();
         event.stopPropagation();
+    }
+
+    activateNewTask(): void {
+        this.activeNewTask = !this.activeNewTask;
     }
 
     getRandomColor(): string {
