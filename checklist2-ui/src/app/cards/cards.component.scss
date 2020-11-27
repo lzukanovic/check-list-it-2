@@ -10,7 +10,7 @@
     .card:nth-child(#{$i}n) {
         // margin-top: $i * 70px;
         margin-top: $i * 8.2vh;
-        min-height: 80vh - $i * 8.2vh;
+        min-height: 80vh - $i * 7.5vh;
     }
 }
 
@@ -125,6 +125,25 @@
             textarea {
                 color: var(--muted-text);
                 text-decoration: line-through;
+            }
+        }
+
+        .container2.default {
+
+            .checkbox2 {
+                border-color: var(--muted-text);
+            }
+
+            ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: var(--muted-text);
+                opacity: 1;
+            }
+            :-ms-input-placeholder { /* Internet Explorer 10-11 */
+                color: red;
+            }
+            
+            ::-ms-input-placeholder { /* Microsoft Edge */
+                color: red;
             }
         }
 

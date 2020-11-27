@@ -3,7 +3,7 @@
     class="card"
     *ngFor="let card of cards; let i = index" 
     (click)="activateCard(i)"
-    [ngStyle]="{'transform': 'translateY(' + (i > activeCard ? (cards[activeCard].tasks.length + 1)*30+30 : 0) + 'px)'}">
+    [ngStyle]="{'transform': 'translateY(' + (i > activeCard ? moveY : 0) + 'px)'}">
 
         <div class="card-header">
             <h2 [ngStyle]="{'color': card.color}">{{ card.title }}</h2>
@@ -11,7 +11,7 @@
                 <fa-icon [icon]="faTrashAlt"></fa-icon>
             </div>
         </div>
-        <div class="card-list">
+        <div #cardList class="card-list">
 
             <!-- <label 
             class="container"
@@ -36,7 +36,18 @@
                 autosize [minRows]="1"
                 [attr.disabled]="task.isChecked ? 'disabled' : null"
                 spellcheck="false"
-                #taskInput>{{ task.value }}</textarea>
+                (click)="preventClick($event)">{{ task.value }}</textarea>
+            </div>
+
+            <div class="container2 default">
+                <div class="checkbox-container">
+                    <div class="checkbox2"></div>
+                </div>
+                <textarea 
+                autosize [minRows]="1"
+                spellcheck="false" 
+                placeholder="Write a new task"
+                (click)="preventClick($event)"></textarea>
             </div>
 
         </div>

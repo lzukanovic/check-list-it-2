@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ICard } from '../shared/interfaces';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
@@ -25,7 +25,7 @@ export class CardsComponent implements OnInit {
             ]
         },
         {
-            title: 'Groceries from Hofer',
+            title: 'Hofer Groceries',
             color: '',
             tasks: [
                 {value: 'Pelati 4x', isChecked: false},
@@ -53,6 +53,8 @@ export class CardsComponent implements OnInit {
     ];
     activeCard = this.cards.length - 1;
     faTrashAlt = faTrashAlt;
+    @ViewChildren('cardList') cardListViewChildren: QueryList<any>;
+    moveY = 0;
 
     constructor() { }
 
@@ -61,11 +63,16 @@ export class CardsComponent implements OnInit {
     }
 
     activateCard(index: number): void {
-        // console.log(index);
         if (index === this.activeCard) {
-        this.activeCard = this.cards.length - 1;
+            this.activeCard = this.cards.length - 1;
+            this.moveY = 0;
         } else {
-        this.activeCard = index;
+            this.activeCard = index;
+            const elem: ElementRef[] = this.cardListViewChildren.filter((element, ix) => ix === index);
+            const height = getComputedStyle(elem[0].nativeElement).getPropertyValue('height');
+            const padding = getComputedStyle(elem[0].nativeElement).getPropertyValue('padding');
+            this.moveY = parseInt(height.substring(0, height.length - 2), 10) +
+                        parseInt(padding.substring(0, padding.length - 2), 10);
         }
     }
 
@@ -75,6 +82,11 @@ export class CardsComponent implements OnInit {
         console.log('clicked task: ' + index);
         this.cards[this.activeCard].tasks[index].isChecked = !this.cards[this.activeCard].tasks[index].isChecked;
         console.log(this.cards[this.activeCard].tasks[index].isChecked);
+    }
+
+    preventClick(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
     }
 
     getRandomColor(): string {
