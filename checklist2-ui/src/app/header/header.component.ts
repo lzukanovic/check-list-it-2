@@ -7,7 +7,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
         <header>
             <div class="date">
                 <h1 class="day">{{ currentDate | date:'EEEE' }},</h1>
-                <h1 class="mute">{{ currentDate | date:'LLLL MM' }}</h1>
+                <h1 class="mute">{{ currentDate | date:'LLLL' }} {{ (currentDate | date:'d') | dateSuffix }}</h1>
             </div>
             <div class="plus-icon mute">
                 <fa-icon [icon]="faPlus"></fa-icon>
