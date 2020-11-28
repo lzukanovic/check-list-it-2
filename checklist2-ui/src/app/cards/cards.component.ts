@@ -1,13 +1,15 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ICard, ITask } from '../shared/interfaces';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { CommunicationService } from '../core/communication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cards',
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss']
 })
-export class CardsComponent implements OnInit {
+export class CardsComponent implements OnInit, OnDestroy {
     titleColors: string[] = ['#FF5252', '#FF4081', '#E040FB',
                             '#7C4DFF', '#536DFE', '#448AFF',
                             '#40C4FF', '#18FFFF', '#64FFDA',
@@ -58,11 +60,21 @@ export class CardsComponent implements OnInit {
     @ViewChildren('newTaskBox') newTaskBoxViewChildren: QueryList<ElementRef>;
     moveY = 0;
     newTaskValue = '';
+    subscription: Subscription;
 
-    constructor() { }
+    constructor(private comms: CommunicationService) { }
 
     ngOnInit(): void {
         this.cards.map((card: ICard) => card.color = this.getRandomColor());
+        this.subscription = this.comms.addBtnClicked$.subscribe(state => {
+            if (state) {
+                this.createNewList();
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     activateCard(index: number): void {
@@ -111,6 +123,16 @@ export class CardsComponent implements OnInit {
             this.cards[this.activeCard].tasks.push(newTask);
         }
     }
+
+    createNewList(): void {
+        const defaultCard: ICard = {
+            title: 'Add your title here',
+            color: this.getRandomColor(),
+            tasks: []
+        };
+        this.cards.push(defaultCard);
+    }
+
     getRandomColor(): string {
         return this.titleColors[Math.floor(Math.random() * this.titleColors.length)];
     }

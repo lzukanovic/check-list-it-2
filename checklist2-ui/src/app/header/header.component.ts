@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { CommunicationService } from '../core/communication.service';
 
 @Component({
     selector: 'app-header',
@@ -9,7 +10,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
                 <h1 class="day">{{ currentDate | date:'EEEE' }},</h1>
                 <h1 class="mute">{{ currentDate | date:'LLLL' }} {{ (currentDate | date:'d') | dateSuffix }}</h1>
             </div>
-            <div class="plus-icon mute">
+            <div class="plus-icon mute"
+                (click)="plusClick()">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </div>
         </header>
@@ -40,9 +42,12 @@ export class HeaderComponent implements OnInit {
     faPlus = faPlus;
     currentDate = new Date();
 
-    constructor() { }
+    constructor(private comms: CommunicationService) { }
 
     ngOnInit(): void {
     }
 
+    plusClick(): void {
+        this.comms.addButtonClick(true);
+    }
 }
