@@ -6,7 +6,7 @@
 //     width: 100%;
 // }
 
-@for $i from 2 through 8 {
+@for $i from 2 through 100 {
     .card:nth-child(#{$i}n) {
         // margin-top: $i * 70px;
         margin-top: $i * 8.2vh;
