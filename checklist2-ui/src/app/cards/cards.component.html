@@ -26,6 +26,7 @@
             <div 
             class="header-button"
             *ngIf="i === activeCard"
+            [@fadeAnimation]
             (click)="preventClick($event); toggleEditMode()">
                 <fa-icon [icon]="faEdit"></fa-icon>
             </div>
@@ -33,6 +34,7 @@
             <div 
             class="header-button"
             *ngIf="i === activeCard"
+            [@fadeAnimation]
             (click)="preventClick($event)">
                 <fa-icon [icon]="faTrashAlt"></fa-icon>
             </div>

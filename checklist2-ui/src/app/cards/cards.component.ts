@@ -1,13 +1,38 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 import { ICard, ITask } from '../shared/interfaces';
 import { faTrashAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { CommunicationService } from '../core/communication.service';
-import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-cards',
-  templateUrl: './cards.component.html',
-  styleUrls: ['./cards.component.scss']
+    selector: 'app-cards',
+    templateUrl: './cards.component.html',
+    styleUrls: ['./cards.component.scss'],
+    animations: [
+        trigger(
+          'fadeAnimation',
+          [
+            transition(
+              ':enter',
+              [
+                style({ opacity: 0 }),
+                animate('0.2s ease-out',
+                        style({ opacity: 1 }))
+              ]
+            ),
+            transition(
+              ':leave',
+              [
+                style({ opacity: 1 }),
+                animate('0.2s ease-in',
+                        style({ opacity: 0 }))
+              ]
+            )
+          ]
+        )
+      ]
 })
 export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     titleColors: string[] = ['#FF5252', '#FF4081', '#E040FB',
