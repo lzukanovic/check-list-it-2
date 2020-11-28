@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 import { ICard, ITask } from '../shared/interfaces';
 import { faTrashAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
