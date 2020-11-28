@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ICard, ITask } from '../shared/interfaces';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { CommunicationService } from '../core/communication.service';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss']
 })
-export class CardsComponent implements OnInit, OnDestroy {
+export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     titleColors: string[] = ['#FF5252', '#FF4081', '#E040FB',
                             '#7C4DFF', '#536DFE', '#448AFF',
                             '#40C4FF', '#18FFFF', '#64FFDA',
@@ -57,53 +57,99 @@ export class CardsComponent implements OnInit, OnDestroy {
     activeNewTaskIx: number = null;
     faTrashAlt = faTrashAlt;
     @ViewChildren('cardList') cardListViewChildren: QueryList<ElementRef>;
-    @ViewChildren('newTaskBox') newTaskBoxViewChildren: QueryList<ElementRef>;
+    @ViewChildren('taskItem') taskItemsViewChildren: QueryList<ElementRef>;
     moveY = 0;
     newTaskValue = '';
-    subscription: Subscription;
+    commsSubscription: Subscription;
+    taskViewChildrenChangeSubscription: Subscription;
 
     constructor(private comms: CommunicationService) { }
 
     ngOnInit(): void {
         this.cards.map((card: ICard) => card.color = this.getRandomColor());
-        this.subscription = this.comms.addBtnClicked$.subscribe(state => {
+        this.commsSubscription = this.comms.addBtnClicked$.subscribe(state => {
             if (state) {
                 this.createNewList();
             }
         });
     }
 
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+    ngAfterViewInit(): void {
+        this.taskViewChildrenChangeSubscription = this.taskItemsViewChildren.changes.subscribe(taskItems => {
+            // setTimeout used to avoid ExpressionChangedAfterItHasBeenCheckedError
+            setTimeout(() => {
+                const globalTaskIndex = this.computeTaskGlobalIndex(this.cards[this.activeCard].tasks.length - 1);
+                this.moveElementY(taskItems, globalTaskIndex, 'height', 'margin-bottom', false);
+            }, 10);
+        });
+
     }
 
+    ngOnDestroy(): void {
+        this.commsSubscription.unsubscribe();
+        this.taskViewChildrenChangeSubscription.unsubscribe();
+    }
+
+    /**
+     * Used to manually move cards lower to accomodate changes.
+     * @param items - ViewChildren QueryList with the HTML elements.
+     * @param elementIx - The select element index to search for in the items array.
+     * @param property1 - first style property, usually height.
+     * @param property2 - second style property, usually margin/padding.
+     * @param equals    - used to identify if equation only or equation and addition.
+     */
+    moveElementY(items, elementIx: number, property1: string, property2: string, equals: boolean): void {
+        let moveDif = 0;
+        const newTaskElem: ElementRef[] = items.filter((element, ix) => ix === elementIx);
+        const height = getComputedStyle(newTaskElem[0].nativeElement).getPropertyValue(property1);
+        const padding = getComputedStyle(newTaskElem[0].nativeElement).getPropertyValue(property2);
+        moveDif = parseInt(height.substring(0, height.length - 2), 10) +
+                    parseInt(padding.substring(0, padding.length - 2), 10);
+
+        if (equals) {
+            this.moveY = moveDif;
+        } else {
+            this.moveY += moveDif;
+        }
+    }
+
+    /**
+     * Changes the activeCard index to the one selected.
+     * If the selected card was not the last one, it moves the cards by the calculated value.
+     * @param index - index of the selected card.
+     */
     activateCard(index: number): void {
         if (index === this.activeCard) {
             this.activeCard = this.cards.length - 1;
             this.moveY = 0;
         } else {
             this.activeCard = index;
-            const elem: ElementRef[] = this.cardListViewChildren.filter((element, ix) => ix === index);
-            const height = getComputedStyle(elem[0].nativeElement).getPropertyValue('height');
-            const padding = getComputedStyle(elem[0].nativeElement).getPropertyValue('padding');
-            this.moveY = parseInt(height.substring(0, height.length - 2), 10) +
-                        parseInt(padding.substring(0, padding.length - 2), 10);
+            this.moveElementY(this.cardListViewChildren, index, 'height', 'padding', true);
         }
     }
 
-    checkTask(index: number, event: Event): void {
-        event.preventDefault();
-        event.stopPropagation();
-        // console.log('clicked task: ' + index);
+    /**
+     * Changes the clicked checkbox's task's isChecked property to its adjacent value.
+     * @param index - index of the clicked task item of the ACTIVE card.
+     */
+    checkTask(index: number): void {
         this.cards[this.activeCard].tasks[index].isChecked = !this.cards[this.activeCard].tasks[index].isChecked;
-        // console.log(this.cards[this.activeCard].tasks[index].isChecked);
     }
 
+    /**
+     * Prevents parent HTML elements of clicked task field from registering click event.
+     * Click event happens when user tries to edit task item.
+     * @param event - event object from HTML element.
+     */
     preventClick(event: Event): void {
         event.preventDefault();
         event.stopPropagation();
     }
 
+    /**
+     * Respectively changes the index of the currently active new task input field
+     * @param isFocus - is different depending on focus/blur event trigger from HTML element
+     */
     activateNewTask(isFocus: boolean): void {
         if (isFocus) {
             this.activeNewTaskIx = this.activeCard;
@@ -112,10 +158,12 @@ export class CardsComponent implements OnInit, OnDestroy {
         }
     }
 
+    /**
+     * ENTER key pressed down listener that adds a new task item to the ACTIVE card.
+     * and automatically move the other cards appropriately.
+     * @param event - event object from HTML element.
+     */
     addTask(event): void {
-        // const elem: ElementRef[] = this.newTaskBoxViewChildren.filter((element, ix) => ix === this.activeCard);
-        // elem[0].nativeElement.blur();
-        // elem[0].nativeElement.value = '';
         event.preventDefault();
         const taskValue = event.target.value;
         if (taskValue !== '') {
@@ -125,9 +173,49 @@ export class CardsComponent implements OnInit, OnDestroy {
                 isChecked: false
             };
             this.cards[this.activeCard].tasks.push(newTask);
+
+            // this.taskViewChildrenChangeSubscription = this.taskItemsViewChildren.changes.subscribe(taskItems => {
+            //     console.log(taskItems);
+            //     let moveDif = 0;
+            //     const globalTaskIndex = this.computeTaskGlobalIndex(this.cards[this.activeCard].tasks.length - 1);
+            //     const newTaskElem: ElementRef[] = taskItems.filter((element, ix) => ix === globalTaskIndex);
+            //     const height = getComputedStyle(newTaskElem[0].nativeElement).getPropertyValue('height');
+            //     const padding = getComputedStyle(newTaskElem[0].nativeElement).getPropertyValue('margin-bottom');
+            //     moveDif = parseInt(height.substring(0, height.length - 2), 10) +
+            //                 parseInt(padding.substring(0, padding.length - 2), 10);
+            //     console.log(this.moveY, ' += ', moveDif);
+            //     this.moveY += moveDif;
+            //     console.log(' => ', this.moveY);
+            //     // MUST ADD ONLY TO moveY ORIGINAL VALUE
+            // });
+
         }
     }
 
+    /**
+     * Accumulator function that returns calculated global index of task item in ACTIVE card.
+     * @param localIndex - local index of task item.
+     * @return counted global index of task item.
+     */
+    computeTaskGlobalIndex(localIndex: number): number {
+        let indexAccumulator = 0;
+        let cardCursor = 0;
+
+        while (cardCursor <= this.activeCard) {
+            if (cardCursor === this.activeCard) {
+                indexAccumulator += localIndex;
+            } else {
+                indexAccumulator += this.cards[cardCursor].tasks.length;
+            }
+            cardCursor++;
+        }
+
+        return indexAccumulator;
+    }
+
+    /**
+     * Creates a new default list and closes any opened cards.
+     */
     createNewList(): void {
         const defaultCard: ICard = {
             title: 'Add your title here',
@@ -146,6 +234,10 @@ export class CardsComponent implements OnInit, OnDestroy {
         }
     }
 
+    /**
+     * Returns random color string from array of strings.
+     * @return random color HEX code.
+     */
     getRandomColor(): string {
         return this.titleColors[Math.floor(Math.random() * this.titleColors.length)];
     }

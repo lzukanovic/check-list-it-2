@@ -6,7 +6,7 @@
     [ngStyle]="{'transform': 'translateY(' + (i > activeCard ? moveY : 0) + 'px)'}">
 
         <div class="card-header">
-            <h2 [ngStyle]="{'color': card.color}">{{ card.title }}: {{ i }}</h2>
+            <h2 [ngStyle]="{'color': card.color}">{{ card.title }}</h2>
             <div class="delete-button">
                 <fa-icon [icon]="faTrashAlt"></fa-icon>
             </div>
@@ -26,9 +26,10 @@
 
             <div 
             class="container2" 
+            #taskItem
             *ngFor="let task of card.tasks; let j = index"
             [class.checked]="task.isChecked">
-                <div class="checkbox-container" (click)="checkTask(j, $event)">
+            <div class="checkbox-container" (click)="checkTask(j); preventClick($event)">
                     <div class="checkbox2"></div>
                     <div class="checkbox-body2"></div>
                 </div>
@@ -44,7 +45,6 @@
                     <div class="checkbox2"></div>
                 </div>
                 <textarea
-                #newTaskBox
                 autosize [minRows]="1"
                 spellcheck="false" 
                 placeholder="Write a new task"
