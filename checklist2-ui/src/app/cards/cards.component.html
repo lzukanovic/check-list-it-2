@@ -6,7 +6,7 @@
     [ngStyle]="{'transform': 'translateY(' + (i > activeCard ? moveY : 0) + 'px)'}">
 
         <div class="card-header">
-            <h2 [ngStyle]="{'color': card.color}">{{ card.title }}</h2>
+            <h2 [ngStyle]="{'color': card.color}">{{ card.title }}: {{ i }}</h2>
             <div class="delete-button">
                 <fa-icon [icon]="faTrashAlt"></fa-icon>
             </div>
@@ -39,7 +39,7 @@
                 (click)="preventClick($event)">{{ task.value }}</textarea>
             </div>
 
-            <div class="container2 default" [class.focus]="activeNewTask">
+            <div class="container2 default" [class.focus]="activeNewTaskIx === i">
                 <div class="checkbox-container">
                     <div class="checkbox2"></div>
                 </div>
@@ -48,11 +48,12 @@
                 autosize [minRows]="1"
                 spellcheck="false" 
                 placeholder="Write a new task"
-                (focus)="activateNewTask()"
-                (focusout)="activateNewTask()"
+                (focus)="activateNewTask(true)"
+                (focusout)="activateNewTask(false)"
                 (click)="preventClick($event)"
                 (keydown.enter)="addTask($event)"
-                [(ngModel)]="newTaskValue"></textarea>
+                [ngModel]="activeNewTaskIx === i ? newTaskValue : null"
+                (ngModelChange)="newTaskValue = $event"></textarea>
             </div>
 
         </div>

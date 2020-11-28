@@ -54,7 +54,7 @@ export class CardsComponent implements OnInit, OnDestroy {
         }
     ];
     activeCard = this.cards.length - 1;
-    activeNewTask = false;
+    activeNewTaskIx: number = null;
     faTrashAlt = faTrashAlt;
     @ViewChildren('cardList') cardListViewChildren: QueryList<ElementRef>;
     @ViewChildren('newTaskBox') newTaskBoxViewChildren: QueryList<ElementRef>;
@@ -104,8 +104,12 @@ export class CardsComponent implements OnInit, OnDestroy {
         event.stopPropagation();
     }
 
-    activateNewTask(): void {
-        this.activeNewTask = !this.activeNewTask;
+    activateNewTask(isFocus: boolean): void {
+        if (isFocus) {
+            this.activeNewTaskIx = this.activeCard;
+        } else {
+            this.activeNewTaskIx = null;
+        }
     }
 
     addTask(event): void {
@@ -131,6 +135,7 @@ export class CardsComponent implements OnInit, OnDestroy {
             tasks: []
         };
         this.cards.push(defaultCard);
+        this.activeCard = this.cards.length - 1;
     }
 
     getRandomColor(): string {
