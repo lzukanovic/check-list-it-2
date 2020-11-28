@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { ICard } from '../shared/interfaces';
+import { ICard, ITask } from '../shared/interfaces';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -57,6 +57,7 @@ export class CardsComponent implements OnInit {
     @ViewChildren('cardList') cardListViewChildren: QueryList<ElementRef>;
     @ViewChildren('newTaskBox') newTaskBoxViewChildren: QueryList<ElementRef>;
     moveY = 0;
+    newTaskValue = '';
 
     constructor() { }
 
@@ -81,9 +82,9 @@ export class CardsComponent implements OnInit {
     checkTask(index: number, event: Event): void {
         event.preventDefault();
         event.stopPropagation();
-        console.log('clicked task: ' + index);
+        // console.log('clicked task: ' + index);
         this.cards[this.activeCard].tasks[index].isChecked = !this.cards[this.activeCard].tasks[index].isChecked;
-        console.log(this.cards[this.activeCard].tasks[index].isChecked);
+        // console.log(this.cards[this.activeCard].tasks[index].isChecked);
     }
 
     preventClick(event: Event): void {
@@ -95,6 +96,21 @@ export class CardsComponent implements OnInit {
         this.activeNewTask = !this.activeNewTask;
     }
 
+    addTask(event): void {
+        // const elem: ElementRef[] = this.newTaskBoxViewChildren.filter((element, ix) => ix === this.activeCard);
+        // elem[0].nativeElement.blur();
+        // elem[0].nativeElement.value = '';
+        event.preventDefault();
+        const taskValue = event.target.value;
+        if (taskValue !== '') {
+            this.newTaskValue = '';
+            const newTask: ITask = {
+                value: taskValue,
+                isChecked: false
+            };
+            this.cards[this.activeCard].tasks.push(newTask);
+        }
+    }
     getRandomColor(): string {
         return this.titleColors[Math.floor(Math.random() * this.titleColors.length)];
     }

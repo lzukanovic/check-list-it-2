@@ -9,6 +9,7 @@ import { CardsComponent } from './cards/cards.component';
 import { CardComponent } from './cards/card/card.component';
 import { SharedModule } from './shared/shared.module';
 import { AutosizeModule } from 'ngx-autosize';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AutosizeModule } from 'ngx-autosize';
     AppRoutingModule,
     FontAwesomeModule,
     SharedModule,
-    AutosizeModule
+    AutosizeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

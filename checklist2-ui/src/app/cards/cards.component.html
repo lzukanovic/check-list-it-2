@@ -40,16 +40,19 @@
             </div>
 
             <div class="container2 default" [class.focus]="activeNewTask">
-                <div class="checkbox-container" #newTaskBox>
+                <div class="checkbox-container">
                     <div class="checkbox2"></div>
                 </div>
-                <textarea 
+                <textarea
+                #newTaskBox
                 autosize [minRows]="1"
                 spellcheck="false" 
                 placeholder="Write a new task"
                 (focus)="activateNewTask()"
                 (focusout)="activateNewTask()"
-                (click)="preventClick($event)"></textarea>
+                (click)="preventClick($event)"
+                (keydown.enter)="addTask($event)"
+                [(ngModel)]="newTaskValue"></textarea>
             </div>
 
         </div>
