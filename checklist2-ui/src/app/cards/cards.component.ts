@@ -134,8 +134,16 @@ export class CardsComponent implements OnInit, OnDestroy {
             color: this.getRandomColor(),
             tasks: []
         };
-        this.cards.push(defaultCard);
-        this.activeCard = this.cards.length - 1;
+        if (this.activeCard !== this.cards.length - 1) {
+            this.activeCard = this.cards.length - 1;
+            setTimeout(() => {
+                this.cards.push(defaultCard);
+                this.activeCard = this.cards.length - 1;
+            }, 120);
+        } else {
+            this.cards.push(defaultCard);
+            this.activeCard = this.cards.length - 1;
+        }
     }
 
     getRandomColor(): string {
