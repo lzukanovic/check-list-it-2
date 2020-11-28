@@ -6,8 +6,34 @@
     [ngStyle]="{'transform': 'translateY(' + (i > activeCard ? moveY : 0) + 'px)'}">
 
         <div class="card-header">
-            <h2 [ngStyle]="{'color': card.color}">{{ card.title }}</h2>
-            <div class="delete-button">
+            <h2 
+            *ngIf="!isActiveTitleEdit || i !== activeCard"
+            [ngStyle]="{'color': card.color}">
+                {{ card.title }}
+            </h2>
+
+            <textarea
+            *ngIf="i == activeCard && isActiveTitleEdit"
+            rows="1"
+            autosize
+            spellcheck="false"
+            [ngModel]="card.title"
+            (ngModelChange)="saveTitleChange($event)"
+            (click)="preventClick($event)"
+            (keydown.enter)="toggleEditMode()"
+            [ngStyle]="{'color': card.color, 'border-bottom': '3px solid '+card.color}">{{ card.title }}</textarea>
+
+            <div 
+            class="header-button"
+            *ngIf="i === activeCard"
+            (click)="preventClick($event); toggleEditMode()">
+                <fa-icon [icon]="faEdit"></fa-icon>
+            </div>
+
+            <div 
+            class="header-button"
+            *ngIf="i === activeCard"
+            (click)="preventClick($event)">
                 <fa-icon [icon]="faTrashAlt"></fa-icon>
             </div>
         </div>

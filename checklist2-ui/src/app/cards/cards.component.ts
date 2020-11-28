@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ICard, ITask } from '../shared/interfaces';
-import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faTrashAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { CommunicationService } from '../core/communication.service';
 import { Subscription } from 'rxjs';
 
@@ -53,9 +53,11 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             ]
         }
     ];
+    faTrashAlt = faTrashAlt;
+    faEdit = faEdit;
     activeCard = this.cards.length - 1;
     activeNewTaskIx: number = null;
-    faTrashAlt = faTrashAlt;
+    isActiveTitleEdit = false;
     @ViewChildren('cardList') cardListViewChildren: QueryList<ElementRef>;
     @ViewChildren('taskItem') taskItemsViewChildren: QueryList<ElementRef>;
     moveY = 0;
@@ -88,6 +90,21 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnDestroy(): void {
         this.commsSubscription.unsubscribe();
         this.taskViewChildrenChangeSubscription.unsubscribe();
+    }
+
+    /**
+     * Saves title change.
+     * @param value - new value from textarea input.
+     */
+    saveTitleChange(value: string): void {
+        this.cards[this.activeCard].title = value;
+    }
+
+    /**
+     * Toggles into title edit mode.
+     */
+    toggleEditMode(): void {
+        this.isActiveTitleEdit = !this.isActiveTitleEdit;
     }
 
     /**
@@ -126,6 +143,7 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.activeCard = index;
             this.moveElementY(this.cardListViewChildren, index, 'height', 'padding', true);
         }
+        this.isActiveTitleEdit = false;
     }
 
     /**

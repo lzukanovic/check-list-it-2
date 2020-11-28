@@ -43,25 +43,42 @@
     width: 100%;
     
     .card-header {
-        align-items: center;
+        align-items: flex-start;
         display: flex;
         justify-content: space-between;
         padding: 20px 10% 0;
-    
+        
         h2 {
+            flex: 1;
             font-size: 27px;
             font-weight: normal;
             margin: 0;
         }
 
-        .delete-button {
+        textarea {
+            flex: 1; 
+            background-color: var(--card-bg);
+            // background-color: black;
+            border: none;
+            // border-bottom: 2px solid var(--text);
+            display: block;
+            font-family: inherit;
+            font-size: 27px;
+            font-weight: normal;
+            outline: none;
+            padding: 0;
+            resize: none;
+        }
+
+        .header-button {
             color: var(--muted-text);
             cursor: pointer;
             font-size: 20px;
+            margin-left: 12px;
 
-            &:hover {
-                color: var(--text);
-            }
+            // &:hover {
+            //     color: var(--text);
+            // }
         }
     }
     
