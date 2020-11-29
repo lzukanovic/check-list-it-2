@@ -32,7 +32,7 @@ import { CommunicationService } from '../core/communication.service';
             )
           ]
         )
-      ]
+    ]
 })
 export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     titleColors: string[] = ['#FF5252', '#FF4081', '#E040FB',
@@ -104,9 +104,12 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit(): void {
         this.taskViewChildrenChangeSubscription = this.taskItemsViewChildren.changes.subscribe(taskItems => {
             // setTimeout used to avoid ExpressionChangedAfterItHasBeenCheckedError
+            console.log(taskItems);
             setTimeout(() => {
-                const globalTaskIndex = this.computeTaskGlobalIndex(this.cards[this.activeCard].tasks.length - 1);
-                this.moveElementY(taskItems, globalTaskIndex, 'height', 'margin-bottom', false);
+                if (this.cards.length > 0 && taskItems.length > 0) {
+                    const globalTaskIndex = this.computeTaskGlobalIndex(this.cards[this.activeCard].tasks.length - 1);
+                    this.moveElementY(taskItems, globalTaskIndex, 'height', 'margin-bottom', false);
+                }
             }, 10);
         });
 
@@ -130,6 +133,19 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     toggleEditMode(): void {
         this.isActiveTitleEdit = !this.isActiveTitleEdit;
+    }
+
+    /**
+     * Deletes the ACTIVE card.
+     */
+    deleteCard(): void {
+        if (this.activeCard === this.cards.length - 1) {
+            this.cards.splice(this.activeCard, 1);
+            this.activeCard--;
+        } else {
+            this.cards.splice(this.activeCard, 1);
+            this.activeCard = this.cards.length - 1;
+        }
     }
 
     /**
@@ -216,22 +232,6 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
                 isChecked: false
             };
             this.cards[this.activeCard].tasks.push(newTask);
-
-            // this.taskViewChildrenChangeSubscription = this.taskItemsViewChildren.changes.subscribe(taskItems => {
-            //     console.log(taskItems);
-            //     let moveDif = 0;
-            //     const globalTaskIndex = this.computeTaskGlobalIndex(this.cards[this.activeCard].tasks.length - 1);
-            //     const newTaskElem: ElementRef[] = taskItems.filter((element, ix) => ix === globalTaskIndex);
-            //     const height = getComputedStyle(newTaskElem[0].nativeElement).getPropertyValue('height');
-            //     const padding = getComputedStyle(newTaskElem[0].nativeElement).getPropertyValue('margin-bottom');
-            //     moveDif = parseInt(height.substring(0, height.length - 2), 10) +
-            //                 parseInt(padding.substring(0, padding.length - 2), 10);
-            //     console.log(this.moveY, ' += ', moveDif);
-            //     this.moveY += moveDif;
-            //     console.log(' => ', this.moveY);
-            //     // MUST ADD ONLY TO moveY ORIGINAL VALUE
-            // });
-
         }
     }
 
@@ -243,16 +243,16 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     computeTaskGlobalIndex(localIndex: number): number {
         let indexAccumulator = 0;
         let cardCursor = 0;
-
-        while (cardCursor <= this.activeCard) {
-            if (cardCursor === this.activeCard) {
-                indexAccumulator += localIndex;
-            } else {
-                indexAccumulator += this.cards[cardCursor].tasks.length;
+        if (this.cards.length > 0) {
+            while (cardCursor <= this.activeCard) {
+                if (cardCursor === this.activeCard) {
+                    indexAccumulator += localIndex;
+                } else {
+                    indexAccumulator += this.cards[cardCursor].tasks.length;
+                }
+                cardCursor++;
             }
-            cardCursor++;
         }
-
         return indexAccumulator;
     }
 

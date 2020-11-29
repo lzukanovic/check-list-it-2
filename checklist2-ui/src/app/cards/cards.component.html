@@ -35,7 +35,7 @@
             class="header-button"
             *ngIf="i === activeCard"
             [@fadeAnimation]
-            (click)="preventClick($event)">
+            (click)="preventClick($event); deleteCard()">
                 <fa-icon [icon]="faTrashAlt"></fa-icon>
             </div>
         </div>
