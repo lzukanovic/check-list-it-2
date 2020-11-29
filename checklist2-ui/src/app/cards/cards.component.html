@@ -1,6 +1,7 @@
 <div *ngIf="cards">
     <div 
     class="card"
+    #card
     *ngFor="let card of cards; let i = index" 
     (click)="activateCard(i)"
     [ngStyle]="{'transform': 'translateY(' + (i > activeCard ? moveY : 0) + 'px)'}">

@@ -5,6 +5,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { ICard, ITask } from '../shared/interfaces';
 import { faTrashAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { CommunicationService } from '../core/communication.service';
+import { error } from 'protractor';
 
 @Component({
     selector: 'app-cards',
@@ -63,6 +64,15 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
                 {value: 'Mleko 5L', isChecked: false},
                 {value: 'Parmezan', isChecked: false},
                 {value: 'Kokosovo mleko 2x', isChecked: false},
+                {value: 'Mleko 5L', isChecked: false},
+                {value: 'Parmezan', isChecked: false},
+                {value: 'Kokosovo mleko 2x', isChecked: false},
+                {value: 'Mleko 5L', isChecked: false},
+                {value: 'Parmezan', isChecked: false},
+                {value: 'Kokosovo mleko 2x', isChecked: false},
+                {value: 'Mleko 5L', isChecked: false},
+                {value: 'Parmezan', isChecked: false},
+                {value: 'Kokosovo mleko 2x', isChecked: false},
                 {value: 'Toast kruh 2x', isChecked: false}
             ]
         },
@@ -85,10 +95,12 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     isActiveTitleEdit = false;
     @ViewChildren('cardList') cardListViewChildren: QueryList<ElementRef>;
     @ViewChildren('taskItem') taskItemsViewChildren: QueryList<ElementRef>;
+    @ViewChildren('card') cardsViewChildren: QueryList<ElementRef>;
     moveY = 0;
     newTaskValue = '';
     commsSubscription: Subscription;
     taskViewChildrenChangeSubscription: Subscription;
+    cardsViewChildrenChangeSubscription: Subscription;
 
     constructor(private comms: CommunicationService) { }
 
@@ -104,7 +116,6 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit(): void {
         this.taskViewChildrenChangeSubscription = this.taskItemsViewChildren.changes.subscribe(taskItems => {
             // setTimeout used to avoid ExpressionChangedAfterItHasBeenCheckedError
-            console.log(taskItems);
             setTimeout(() => {
                 if (this.cards.length > 0 && taskItems.length > 0) {
                     const globalTaskIndex = this.computeTaskGlobalIndex(this.cards[this.activeCard].tasks.length - 1);
@@ -113,11 +124,42 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             }, 10);
         });
 
+        this.cardsViewChildren.changes.subscribe(() => {
+            const newMaxHeight = this.findMaxHeight(this.cardsViewChildren.toArray());
+            this.setCardsHeight(newMaxHeight);
+        });
+
+        const maxHeight = this.findMaxHeight(this.cardsViewChildren.toArray());
+        this.setCardsHeight(maxHeight);
     }
 
     ngOnDestroy(): void {
         this.commsSubscription.unsubscribe();
         this.taskViewChildrenChangeSubscription.unsubscribe();
+        this.cardsViewChildrenChangeSubscription.unsubscribe();
+    }
+
+    /**
+     * Sets new min-height property to all cards.
+     * @param height - height that gets applied to all cards.
+     */
+    setCardsHeight(height: number): void {
+        for (const cardElem of this.cardsViewChildren.toArray()) {
+            cardElem.nativeElement.style.minHeight = height + 'px';
+        }
+    }
+
+    /**
+     * Finds the card with the largest hight value.
+     * @param elementsArray - HTML cards array.
+     * @returns maximum height in pixels.
+     */
+    findMaxHeight(elementsArray: ElementRef[]): number {
+        const maxHeightCard = elementsArray.reduce((p: ElementRef, v: ElementRef) => {
+            return ( p.nativeElement.offsetHeight > v.nativeElement.offsetHeight ? p : v );
+        }, new ElementRef({}));
+        // console.log(maxHeightCard.nativeElement.offsetHeight);
+        return maxHeightCard.nativeElement.offsetHeight;
     }
 
     /**
@@ -150,13 +192,13 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * Used to manually move cards lower to accomodate changes.
-     * @param items - ViewChildren QueryList with the HTML elements.
+     * @param items     - ViewChildren QueryList with the HTML elements.
      * @param elementIx - The select element index to search for in the items array.
      * @param property1 - first style property, usually height.
      * @param property2 - second style property, usually margin/padding.
      * @param equals    - used to identify if equation only or equation and addition.
      */
-    moveElementY(items, elementIx: number, property1: string, property2: string, equals: boolean): void {
+    moveElementY(items: ElementRef[], elementIx: number, property1: string, property2: string, equals: boolean): void {
         let moveDif = 0;
         const newTaskElem: ElementRef[] = items.filter((element, ix) => ix === elementIx);
         const height = getComputedStyle(newTaskElem[0].nativeElement).getPropertyValue(property1);
@@ -182,7 +224,7 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.moveY = 0;
         } else {
             this.activeCard = index;
-            this.moveElementY(this.cardListViewChildren, index, 'height', 'padding', true);
+            this.moveElementY(this.cardListViewChildren.toArray(), index, 'height', 'padding', true);
         }
         this.isActiveTitleEdit = false;
     }
@@ -219,7 +261,8 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * ENTER key pressed down listener that adds a new task item to the ACTIVE card.
-     * and automatically move the other cards appropriately.
+     * Cards automatically move in changes listener in ngAfterViewInit.
+     * Sets the new min-height for cards.
      * @param event - event object from HTML element.
      */
     addTask(event): void {
@@ -232,6 +275,9 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
                 isChecked: false
             };
             this.cards[this.activeCard].tasks.push(newTask);
+
+            const maxHeightAdjust = this.findMaxHeight(this.cardsViewChildren.toArray());
+            this.setCardsHeight(maxHeightAdjust);
         }
     }
 
