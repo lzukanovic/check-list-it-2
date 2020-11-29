@@ -40,18 +40,6 @@
             </div>
         </div>
         <div #cardList class="card-list">
-
-            <!-- <label 
-            class="container"
-            (click)="checkTask(i)"
-            *ngFor="let task of card.tasks; let i = index">
-                {{ task.value }}:{{ task.isChecked }}
-                <input type="checkbox" >
-                <span class="checkmark">
-                    <span class="checkmark-body"></span>
-                </span>
-            </label> -->
-
             <div 
             class="container2" 
             #taskItem
@@ -83,7 +71,6 @@
                 [ngModel]="activeNewTaskIx === i ? newTaskValue : null"
                 (ngModelChange)="newTaskValue = $event"></textarea>
             </div>
-
         </div>
     </div>
 </div>

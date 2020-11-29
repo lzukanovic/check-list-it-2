@@ -58,9 +58,7 @@
         textarea {
             flex: 1; 
             background-color: var(--card-bg);
-            // background-color: black;
             border: none;
-            // border-bottom: 2px solid var(--text);
             display: block;
             font-family: inherit;
             font-size: 27px;
@@ -179,87 +177,6 @@
                 color: var(--muted-text);
             }
         }
-
-        // /* Customize the label (the container) */
-        // .container {
-        //     display: block;
-        //     position: relative;
-        //     padding-left: 35px;
-        //     margin-bottom: 12px;
-        //     cursor: pointer;
-        //     font-size: 20px;
-        //     -webkit-user-select: none;
-        //     -moz-user-select: none;
-        //     -ms-user-select: none;
-        //     user-select: none;
-        // }
-
-        // /* Hide the browser's default checkbox */
-        // .container input {
-        //     position: absolute;
-        //     opacity: 0;
-        //     // cursor: pointer;
-        //     height: 0;
-        //     width: 0;
-        // }
-
-        // /* Create a custom checkbox */
-        // .checkmark {
-        //     border: var(--text) solid 3px;
-        //     border-radius: 8px;
-        //     height: 16px;
-        //     left: 0;
-        //     position: absolute;
-        //     top: 0;
-        //     width: 16px;
-        // }
-        // .checkmark-body {
-        //     background-color: rgba(0, 0, 0, 0);
-        //     border-radius: 5px;
-        //     box-sizing: border-box;
-        //     -moz-box-sizing: border-box;
-        //     -webkit-box-sizing: border-box;
-        //     border: 3px solid var(--card-bg);
-        //     position: absolute;
-        //     top: 2;
-        //     left: 2;
-        //     height: 16px;
-        //     width: 16px;
-        // }
-        
-        // /* When the checkbox is checked, add a blue background */
-        // .container input:checked ~ .checkmark {
-        //     border-color: var(--checked);
-
-        //     .checkmark-body {
-        //         background-color: var(--checked);
-        //     }
-        // }
-        
-        // /* Create the checkmark/indicator (hidden when not checked) */
-        // .checkmark:after {
-        //     content: "";
-        //     position: absolute;
-        //     display: none;
-        // }
-        
-        // /* Show the checkmark when checked */
-        // .container input:checked ~ .checkmark:after {
-        //     display: block;
-        // }
-        
-        // /* Style the checkmark/indicator */
-        // .container .checkmark:after {
-        //     left: 9px;
-        //     top: 5px;
-        //     width: 5px;
-        //     height: 10px;
-        //     border: solid white;
-        //     border-width: 0 3px 3px 0;
-        //     -webkit-transform: rotate(45deg);
-        //     -ms-transform: rotate(45deg);
-        //     transform: rotate(45deg);
-        // }
     }
 }
 
