@@ -8,6 +8,7 @@
 
         <div class="card-header">
             <h2 
+            #cardTitle
             *ngIf="!isActiveTitleEdit || i !== activeCard"
             [ngStyle]="{'color': card.color}">
                 {{ card.title }}

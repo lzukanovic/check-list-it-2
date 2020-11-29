@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { trigger, style, animate, transition } from '@angular/animations';
 
 import { ICard, ITask } from '../shared/interfaces';
 import { faTrashAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { CommunicationService } from '../core/communication.service';
-import { error } from 'protractor';
 
 @Component({
     selector: 'app-cards',
@@ -64,15 +63,6 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
                 {value: 'Mleko 5L', isChecked: false},
                 {value: 'Parmezan', isChecked: false},
                 {value: 'Kokosovo mleko 2x', isChecked: false},
-                {value: 'Mleko 5L', isChecked: false},
-                {value: 'Parmezan', isChecked: false},
-                {value: 'Kokosovo mleko 2x', isChecked: false},
-                {value: 'Mleko 5L', isChecked: false},
-                {value: 'Parmezan', isChecked: false},
-                {value: 'Kokosovo mleko 2x', isChecked: false},
-                {value: 'Mleko 5L', isChecked: false},
-                {value: 'Parmezan', isChecked: false},
-                {value: 'Kokosovo mleko 2x', isChecked: false},
                 {value: 'Toast kruh 2x', isChecked: false}
             ]
         },
@@ -93,16 +83,18 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     activeCard = this.cards.length - 1;
     activeNewTaskIx: number = null;
     isActiveTitleEdit = false;
+    @ViewChildren('card') cardsViewChildren: QueryList<ElementRef>;
+    @ViewChildren('cardTitle') cardTitleViewChildren: QueryList<ElementRef>;
     @ViewChildren('cardList') cardListViewChildren: QueryList<ElementRef>;
     @ViewChildren('taskItem') taskItemsViewChildren: QueryList<ElementRef>;
-    @ViewChildren('card') cardsViewChildren: QueryList<ElementRef>;
     moveY = 0;
+    tempTitleHeight = 0;
     newTaskValue = '';
     commsSubscription: Subscription;
     taskViewChildrenChangeSubscription: Subscription;
     cardsViewChildrenChangeSubscription: Subscription;
 
-    constructor(private comms: CommunicationService) { }
+    constructor(private comms: CommunicationService, private cdRef: ChangeDetectorRef) { }
 
     ngOnInit(): void {
         this.cards.map((card: ICard) => card.color = this.getRandomColor());
@@ -119,12 +111,12 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             setTimeout(() => {
                 if (this.cards.length > 0 && taskItems.length > 0) {
                     const globalTaskIndex = this.computeTaskGlobalIndex(this.cards[this.activeCard].tasks.length - 1);
-                    this.moveElementY(taskItems, globalTaskIndex, 'height', 'margin-bottom', false);
+                    this.moveElementY(taskItems, globalTaskIndex, 'height', 'margin-bottom', 'task');
                 }
-            }, 10);
+            }, 1);
         });
 
-        this.cardsViewChildren.changes.subscribe(() => {
+        this.cardsViewChildrenChangeSubscription = this.cardsViewChildren.changes.subscribe(() => {
             const newMaxHeight = this.findMaxHeight(this.cardsViewChildren.toArray());
             this.setCardsHeight(newMaxHeight);
         });
@@ -158,7 +150,6 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
         const maxHeightCard = elementsArray.reduce((p: ElementRef, v: ElementRef) => {
             return ( p.nativeElement.offsetHeight > v.nativeElement.offsetHeight ? p : v );
         }, new ElementRef({}));
-        // console.log(maxHeightCard.nativeElement.offsetHeight);
         return maxHeightCard.nativeElement.offsetHeight;
     }
 
@@ -172,9 +163,23 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * Toggles into title edit mode.
+     * If neccesary, moves cards to incorporate new title height.
      */
     toggleEditMode(): void {
-        this.isActiveTitleEdit = !this.isActiveTitleEdit;
+        if (this.isActiveTitleEdit) {
+            // Leave edit mode
+            this.isActiveTitleEdit = false;
+            let newTitleHeight: number;
+            let diffTitleHeight: number;
+            this.cdRef.detectChanges();
+            newTitleHeight = this.getTitleHeight(this.cardTitleViewChildren.toArray());
+            diffTitleHeight = newTitleHeight - this.tempTitleHeight;
+            this.moveElementY(this.cardTitleViewChildren.toArray(), this.activeCard, 'height', 'margin', 'title', diffTitleHeight);
+        } else {
+            // Enter edit mode
+            this.isActiveTitleEdit = true;
+            this.tempTitleHeight = this.getTitleHeight(this.cardTitleViewChildren.toArray());
+        }
     }
 
     /**
@@ -192,24 +197,26 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * Used to manually move cards lower to accomodate changes.
-     * @param items     - ViewChildren QueryList with the HTML elements.
-     * @param elementIx - The select element index to search for in the items array.
+     * @param items     - array with the HTML elements.
+     * @param elementIx - the select element index to search for in the items array.
      * @param property1 - first style property, usually height.
      * @param property2 - second style property, usually margin/padding.
-     * @param equals    - used to identify if equation only or equation and addition.
+     * @param moveType  - used to identify type of movement.
+     * @param offset    - (optional) additional vertical offset; used for long titles.
      */
-    moveElementY(items: ElementRef[], elementIx: number, property1: string, property2: string, equals: boolean): void {
-        let moveDif = 0;
+    moveElementY(items: ElementRef[], elementIx: number, property1: string, property2: string, moveType: string, offset: number = 0): void {
         const newTaskElem: ElementRef[] = items.filter((element, ix) => ix === elementIx);
         const height = getComputedStyle(newTaskElem[0].nativeElement).getPropertyValue(property1);
         const padding = getComputedStyle(newTaskElem[0].nativeElement).getPropertyValue(property2);
-        moveDif = parseInt(height.substring(0, height.length - 2), 10) +
-                    parseInt(padding.substring(0, padding.length - 2), 10);
+        const heightNum = parseInt(height.substring(0, height.length - 2), 10);
+        const paddingNum = parseInt(padding.substring(0, padding.length - 2), 10);
 
-        if (equals) {
-            this.moveY = moveDif;
-        } else {
-            this.moveY += moveDif;
+        if (moveType === 'card') {
+            this.moveY = heightNum + offset;
+        } else if (moveType === 'task') {
+            this.moveY += heightNum + paddingNum;
+        } else if (moveType === 'title') {
+            this.moveY += offset;
         }
     }
 
@@ -224,9 +231,21 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.moveY = 0;
         } else {
             this.activeCard = index;
-            this.moveElementY(this.cardListViewChildren.toArray(), index, 'height', 'padding', true);
+            this.cdRef.detectChanges();
+            const titleHeight = this.getTitleHeight(this.cardTitleViewChildren.toArray());
+            this.moveElementY(this.cardListViewChildren.toArray(), index, 'height', 'padding', 'card', titleHeight);
         }
         this.isActiveTitleEdit = false;
+    }
+
+    /**
+     * Returns HTML element height of ACTIVE card title.
+     * @param titleElemArray - array with HTML elements.
+     */
+    getTitleHeight(titleElemArray: ElementRef[]): number {
+        const cardTitleElem: ElementRef[] = titleElemArray.filter((element, ix) => ix === this.activeCard);
+        const height = getComputedStyle(cardTitleElem[0].nativeElement).getPropertyValue('height');
+        return parseInt(height.substring(0, height.length - 2), 10);
     }
 
     /**
