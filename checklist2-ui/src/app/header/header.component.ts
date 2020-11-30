@@ -21,20 +21,44 @@ import { CommunicationService } from '../core/communication.service';
             color: var(--text);
             display: flex;
             justify-content: space-between;
-            /* margin: 2.5rem 1.8rem 0; */
         }
         h1 {
             margin: 0;
-            font-size: 30px;
+            /* font-family: 'Montserrat', sans-serif; */
+            font-size: 22px;
             font-weight: 600;
-            letter-spacing: 1px;
+            /* letter-spacing: 1px; */
         }
         .mute {
             color: var(--muted-text);
         }
         .plus-icon {
             align-self: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        @media only screen and (min-width: 375px) {
+            h1 {
+                font-size: 25px;
+            }
+            .plus-icon {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media only screen and (min-width: 400px) {
+            h1 {
+                font-size: 27px;
+            }
+        }
+
+        @media only screen and (min-width: 500px) {
+            h1 {
+                font-size: 30px;
+            }
+            .plus-icon {
+                font-size: 1.8rem;
+            }
         }
     `]
 })

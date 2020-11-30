@@ -24,8 +24,6 @@
     background-color: var(--card-bg);
     border-top-left-radius: 35px;
     border-top-right-radius: 35px;
-    // -webkit-box-shadow: 0px -3px 14px 2px rgba(0,0,0,0.53); 
-    // box-shadow: 0px -3px 14px 2px rgba(0,0,0,0.53);
     -webkit-box-shadow: 0px -5px 13px rgba(0,0,0,0.25);
     -moz-box-shadow: 0px -5px 13px rgba(0,0,0,0.25);
     box-shadow: 0px -5px 13px rgba(0,0,0,0.25);
@@ -38,12 +36,22 @@
     .card-header {
         align-items: flex-start;
         display: flex;
+        font-size: 20px;
         justify-content: space-between;
-        padding: 20px 10% 0;
+        padding: 14px 10% 0;
+
+        @media only screen and (min-width: 375px) {
+            font-size: 23px;
+            padding: 17px 10% 0;
+        }
+        @media only screen and (min-width: 400px) {
+            font-size: 25px;
+            padding: 20px 10% 0;
+        }
         
         h2 {
             flex: 1;
-            font-size: 27px;
+            font-size: inherit;
             font-weight: normal;
             margin: 0;
         }
@@ -54,7 +62,7 @@
             border: none;
             display: block;
             font-family: inherit;
-            font-size: 27px;
+            font-size: inherit;
             font-weight: normal;
             outline: none;
             padding: 0;
@@ -64,12 +72,23 @@
         .header-button {
             color: var(--muted-text);
             cursor: pointer;
-            font-size: 20px;
+            font-size: 15px;
             margin-left: 12px;
+            margin-top: 2px;
 
             // &:hover {
             //     color: var(--text);
             // }
+
+            @media only screen and (min-width: 375px) {
+                font-size: 17px;
+            }
+            @media only screen and (min-width: 400px) {
+                font-size: 20px;
+            }
+            @media only screen and (min-width: 500px) {
+                margin-left: 17px;
+            }
         }
     }
     
@@ -80,24 +99,51 @@
         .container2 {
             cursor: pointer;
             display: flex;
-            font-size: 20px;
+            font-size: 15px;
             margin-bottom: 0.5em;
             position: relative;
 
-            .checkbox2 {
-                border: var(--text) solid 3px;
-                border-radius: 8px;
-                height: 16px;
-                min-height: 16px;
-                margin-right: 1em;
-                width: 16px;
-                min-width: 16px;
+            @media only screen and (min-width: 375px) {
+                font-size: 18px;
+            }
+            @media only screen and (min-width: 400px) {
+                font-size: 20px;
             }
 
-            .checkbox-body2 {
-                display: none;
-                position: absolute;
+            .checkbox-container {
+                padding-top: 1px;
+
+                @media only screen and (min-width: 375px) {
+                    padding-top: 0;
+                }
+
+                .checkbox2 {
+                    border: var(--text) solid 2px;
+                    border-radius: 6px;
+                    height: 12px;
+                    min-height: 12px;
+                    margin-right: 1em;
+                    width: 12px;
+                    min-width: 12px;
+    
+                    @media only screen and (min-width: 375px) {
+                        border-radius: 8px;
+                        height: 16px;
+                        min-height: 16px;
+                        width: 16px;
+                        min-width: 16px;
+                    }
+                    @media only screen and (min-width: 400px) {
+                        border: var(--text) solid 3px;
+                    }
+                }
+
+                .checkbox-body2 {
+                    display: none;
+                    position: absolute;
+                }
             }
+
 
             textarea {
                 flex: 1; 
@@ -116,18 +162,36 @@
 
         .container2.checked {
 
-            .checkbox2 {
-                border-color: var(--checked);
-            }
+            .checkbox-container {
 
-            .checkbox-body2 {
-                border-radius: 3px;
-                background-color: var(--checked);
-                display: initial;
-                height: 10px;
-                left: 6px;
-                top: 6px;
-                width: 10px;
+                .checkbox2 {
+                    border-color: var(--checked);
+                }
+    
+                .checkbox-body2 {
+                    border-radius: 2px;
+                    background-color: var(--checked);
+                    display: initial;
+                    height: 8px;
+                    left: 4px;
+                    top: 5px;
+                    width: 8px;
+    
+                    @media only screen and (min-width: 375px) {
+                        border-radius: 3px;
+                        height: 10px;
+                        left: 5px;
+                        top: 5px;
+                        width: 10px;
+                    }
+                    @media only screen and (min-width: 400px) {
+                        border-radius: 3px;
+                        height: 10px;
+                        left: 6px;
+                        top: 6px;
+                        width: 10px;
+                    }
+                }
             }
 
             textarea {
@@ -139,7 +203,7 @@
         .container2.default {
             
             &.focus {
-                .checkbox2 {
+                .checkbox-container .checkbox2 {
                     border-color: var(--text);
                 }
 
@@ -147,8 +211,8 @@
                     color: var(--text);
                 }
             }
-            
-            .checkbox2 {
+
+            .checkbox-container .checkbox2 {
                 border-color: var(--muted-text);
                 transition: 0.3s;
             }
@@ -181,18 +245,40 @@
     margin-top: 20%;
 
     h2 {
+        font-size: 20px;
         margin: 0;
+
+        @media only screen and (min-width: 375px) {
+            font-size: 23px;
+        }
+        @media only screen and (min-width: 400px) {
+            font-size: 25px;
+        }
     }
 
     img {
-        height: 350px;
+        height: 250px;
+
+        @media only screen and (min-width: 375px) {
+            height: 300px;
+        }
+        @media only screen and (min-width: 400px) {
+            height: 350px;
+        }
     }
 
     p {
         color: var(--muted-text);
-        font-size: 20px;
+        font-size: 15px;
         margin: 0;
         padding: 2% 10% 0;
         text-align: center;
+
+        @media only screen and (min-width: 375px) {
+            font-size: 18px;
+        }
+        @media only screen and (min-width: 400px) {
+            font-size: 20px;
+        }
     }
 }

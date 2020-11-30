@@ -47,7 +47,7 @@
             #taskItem
             *ngFor="let task of card.tasks; let j = index"
             [class.checked]="task.isChecked">
-            <div class="checkbox-container" (click)="checkTask(j); preventClick($event)">
+                <div class="checkbox-container" (click)="checkTask(j); preventClick($event)">
                     <div class="checkbox2"></div>
                     <div class="checkbox-body2"></div>
                 </div>

@@ -1,31 +1,24 @@
 .container {
-    /* background-color: darkblue; */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-}
-
-header {
-    /* background-color: brown; */
-    margin: 2.5rem 1.8rem 0;
-}
-
-section {
-    flex: 1;
-}
-
-main {
-    // background-color: cornflowerblue;
-    /* flex-grow: 1; */
-    border-top-left-radius: 35px;
-    border-top-right-radius: 35px;
-    height: 80vh;
-    position: relative;
-}
-
-.empty-bg {
-    background-color: none;
-}
-.cards-bg {
-    // background-color: var(--card-bg);
+    
+    header {
+        margin: 2.5rem 1.8rem 0;
+        
+        @media only screen and (min-width: 500px) {
+            margin: 2.5rem 4rem 0;
+        }
+    }
+    
+    section {
+        flex: 1;
+    }
+    
+    main {
+        border-top-left-radius: 35px;
+        border-top-right-radius: 35px;
+        min-height: 80vh;
+        position: relative;
+    }
 }

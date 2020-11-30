@@ -41,42 +41,42 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
                             '#69F0AE', '#B2FF59', '#EEFF41',
                             '#FFFF00', '#FFD740', '#FFAB40', '#FF6E40'];
     cards: ICard[] = [
-        {
-            title: 'School',
-            color: '',
-            tasks: [
-                {value: 'Biochem Homework', isChecked: false},
-                {value: 'Group study session in the library', isChecked: false},
-                {value: 'Pick subject for essay', isChecked: false},
-                {value: 'Start writing essay', isChecked: false}
-            ]
-        },
-        {
-            title: 'Hofer Groceries',
-            color: '',
-            tasks: [
-                {value: 'Pelati 4x', isChecked: false},
-                {value: 'Olivno olje', isChecked: false},
-                {value: 'Testo za pico', isChecked: false},
-                {value: 'Testenine', isChecked: false},
-                {value: 'Yogurt 1L', isChecked: false},
-                {value: 'Mleko 5L', isChecked: false},
-                {value: 'Parmezan', isChecked: false},
-                {value: 'Kokosovo mleko 2x', isChecked: false},
-                {value: 'Toast kruh 2x', isChecked: false}
-            ]
-        },
-        {
-            title: 'Home chores',
-            color: '',
-            tasks: [
-                {value: 'Pospravi kuhinjo', isChecked: false},
-                {value: 'Posesaj', isChecked: false},
-                {value: 'Popravi vrata', isChecked: false},
-                {value: 'Silikoniraj razpoke', isChecked: false},
-                {value: 'Izprazni lopo', isChecked: false}
-            ]
-        }
+        // {
+        //     title: 'School',
+        //     color: '',
+        //     tasks: [
+        //         {value: 'Biochem Homework', isChecked: false},
+        //         {value: 'Group study session in the library', isChecked: false},
+        //         {value: 'Pick subject for essay', isChecked: false},
+        //         {value: 'Start writing essay', isChecked: false}
+        //     ]
+        // },
+        // {
+        //     title: 'Hofer Groceries',
+        //     color: '',
+        //     tasks: [
+        //         {value: 'Pelati 4x', isChecked: false},
+        //         {value: 'Olivno olje', isChecked: false},
+        //         {value: 'Testo za pico', isChecked: false},
+        //         {value: 'Testenine', isChecked: false},
+        //         {value: 'Yogurt 1L', isChecked: false},
+        //         {value: 'Mleko 5L', isChecked: false},
+        //         {value: 'Parmezan', isChecked: false},
+        //         {value: 'Kokosovo mleko 2x', isChecked: false},
+        //         {value: 'Toast kruh 2x', isChecked: false}
+        //     ]
+        // },
+        // {
+        //     title: 'Home chores',
+        //     color: '',
+        //     tasks: [
+        //         {value: 'Pospravi kuhinjo', isChecked: false},
+        //         {value: 'Posesaj', isChecked: false},
+        //         {value: 'Popravi vrata', isChecked: false},
+        //         {value: 'Silikoniraj razpoke', isChecked: false},
+        //         {value: 'Izprazni lopo', isChecked: false}
+        //     ]
+        // }
     ];
     faTrashAlt = faTrashAlt;
     faEdit = faEdit;
@@ -136,8 +136,10 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param height - height that gets applied to all cards.
      */
     setCardsHeight(height: number): void {
-        for (const cardElem of this.cardsViewChildren.toArray()) {
-            cardElem.nativeElement.style.minHeight = height + 'px';
+        for (const [i, cardElem] of this.cardsViewChildren.toArray().entries()) {
+            if (i !== 0) {
+                cardElem.nativeElement.style.minHeight = height + 'px';
+            }
         }
     }
 
