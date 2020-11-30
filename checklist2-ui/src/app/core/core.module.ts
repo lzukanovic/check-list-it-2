@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommunicationService } from './communication.service';
+import { LocalStorageService } from './local-storage.service';
 
 
 
@@ -9,6 +10,6 @@ import { CommunicationService } from './communication.service';
   imports: [
     CommonModule
   ],
-  providers: [ CommunicationService ]
+  providers: [ CommunicationService, LocalStorageService ]
 })
 export class CoreModule { }

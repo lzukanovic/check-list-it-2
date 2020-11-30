@@ -5,6 +5,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { ICard, ITask } from '../shared/interfaces';
 import { faTrashAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { CommunicationService } from '../core/communication.service';
+import { LocalStorageService } from '../core/local-storage.service';
 
 @Component({
     selector: 'app-cards',
@@ -41,42 +42,42 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
                             '#69F0AE', '#B2FF59', '#EEFF41',
                             '#FFFF00', '#FFD740', '#FFAB40', '#FF6E40'];
     cards: ICard[] = [
-        {
-            title: 'School',
-            color: '',
-            tasks: [
-                {value: 'Biochem Homework', isChecked: false},
-                {value: 'Group study session in the library', isChecked: false},
-                {value: 'Pick subject for essay', isChecked: false},
-                {value: 'Start writing essay', isChecked: false}
-            ]
-        },
-        {
-            title: 'Hofer Groceries',
-            color: '',
-            tasks: [
-                {value: 'Pelati 4x', isChecked: false},
-                {value: 'Olivno olje', isChecked: false},
-                {value: 'Testo za pico', isChecked: false},
-                {value: 'Testenine', isChecked: false},
-                {value: 'Yogurt 1L', isChecked: false},
-                {value: 'Mleko 5L', isChecked: false},
-                {value: 'Parmezan', isChecked: false},
-                {value: 'Kokosovo mleko 2x', isChecked: false},
-                {value: 'Toast kruh 2x', isChecked: false}
-            ]
-        },
-        {
-            title: 'Home chores',
-            color: '',
-            tasks: [
-                {value: 'Pospravi kuhinjo', isChecked: false},
-                {value: 'Posesaj', isChecked: false},
-                {value: 'Popravi vrata', isChecked: false},
-                {value: 'Silikoniraj razpoke', isChecked: false},
-                {value: 'Izprazni lopo', isChecked: false}
-            ]
-        }
+        // {
+        //     title: 'School',
+        //     color: '',
+        //     tasks: [
+        //         {value: 'Biochem Homework', isChecked: false},
+        //         {value: 'Group study session in the library', isChecked: false},
+        //         {value: 'Pick subject for essay', isChecked: false},
+        //         {value: 'Start writing essay', isChecked: false}
+        //     ]
+        // },
+        // {
+        //     title: 'Hofer Groceries',
+        //     color: '',
+        //     tasks: [
+        //         {value: 'Pelati 4x', isChecked: false},
+        //         {value: 'Olivno olje', isChecked: false},
+        //         {value: 'Testo za pico', isChecked: false},
+        //         {value: 'Testenine', isChecked: false},
+        //         {value: 'Yogurt 1L', isChecked: false},
+        //         {value: 'Mleko 5L', isChecked: false},
+        //         {value: 'Parmezan', isChecked: false},
+        //         {value: 'Kokosovo mleko 2x', isChecked: false},
+        //         {value: 'Toast kruh 2x', isChecked: false}
+        //     ]
+        // },
+        // {
+        //     title: 'Home chores',
+        //     color: '',
+        //     tasks: [
+        //         {value: 'Pospravi kuhinjo', isChecked: false},
+        //         {value: 'Posesaj', isChecked: false},
+        //         {value: 'Popravi vrata', isChecked: false},
+        //         {value: 'Silikoniraj razpoke', isChecked: false},
+        //         {value: 'Izprazni lopo', isChecked: false}
+        //     ]
+        // }
     ];
     faTrashAlt = faTrashAlt;
     faEdit = faEdit;
@@ -94,10 +95,16 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     taskViewChildrenChangeSubscription: Subscription;
     cardsViewChildrenChangeSubscription: Subscription;
 
-    constructor(private comms: CommunicationService, private cdRef: ChangeDetectorRef) { }
+    constructor(private comms: CommunicationService,
+                private cdRef: ChangeDetectorRef,
+                private localStorageService: LocalStorageService) { }
 
     ngOnInit(): void {
-        this.cards.map((card: ICard) => card.color = this.getRandomColor());
+        if (this.localStorageService.doesKeyExist('cards')) {
+            this.cards = this.localStorageService.get('cards');
+            this.activeCard = this.cards.length - 1;
+        }
+        // this.cards.map((card: ICard) => card.color = this.getRandomColor());
         this.commsSubscription = this.comms.addBtnClicked$.subscribe(state => {
             if (state) {
                 this.createNewList();
@@ -161,6 +168,7 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     saveTitleChange(value: string): void {
         this.cards[this.activeCard].title = value;
+        this.localStorageService.set('cards', this.cards);
     }
 
     /**
@@ -188,6 +196,8 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
      * Deletes the ACTIVE card.
      */
     deleteCard(): void {
+        this.localStorageService.removeById('cards', this.activeCard);
+
         if (this.activeCard === this.cards.length - 1) {
             this.cards.splice(this.activeCard, 1);
             this.activeCard--;
@@ -256,6 +266,7 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     checkTask(index: number): void {
         this.cards[this.activeCard].tasks[index].isChecked = !this.cards[this.activeCard].tasks[index].isChecked;
+        this.localStorageService.set('cards', this.cards);
     }
 
     /**
@@ -296,6 +307,7 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
                 isChecked: false
             };
             this.cards[this.activeCard].tasks.push(newTask);
+            this.localStorageService.set('cards', this.cards);
 
             const maxHeightAdjust = this.findMaxHeight(this.cardsViewChildren.toArray());
             this.setCardsHeight(maxHeightAdjust);
@@ -342,6 +354,7 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.cards.push(defaultCard);
             this.activeCard = this.cards.length - 1;
         }
+        this.localStorageService.set('cards', this.cards);
     }
 
     /**
