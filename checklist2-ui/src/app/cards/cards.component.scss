@@ -7,9 +7,9 @@
     }
 }
 
-.card:first-child {
-    box-shadow: none;
-}
+// .card:first-child {
+//     box-shadow: none;
+// }
 
 .card:not(:first-child) {
     // top: -70px;
@@ -24,9 +24,9 @@
     background-color: var(--card-bg);
     border-top-left-radius: 35px;
     border-top-right-radius: 35px;
-    -webkit-box-shadow: 0px -5px 13px rgba(0,0,0,0.25);
-    -moz-box-shadow: 0px -5px 13px rgba(0,0,0,0.25);
-    box-shadow: 0px -5px 13px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
+    -moz-box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
+    box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
     color: var(--text);
     min-height: 80vh;
     position: absolute;
@@ -100,7 +100,7 @@
             cursor: pointer;
             display: flex;
             font-size: 15px;
-            margin-bottom: 0.5em;
+            margin-bottom: 0.7em;
             position: relative;
 
             @media only screen and (min-width: 375px) {
@@ -127,7 +127,7 @@
                     min-width: 12px;
     
                     @media only screen and (min-width: 375px) {
-                        border-radius: 8px;
+                        border-radius: 7px;
                         height: 16px;
                         min-height: 16px;
                         width: 16px;
