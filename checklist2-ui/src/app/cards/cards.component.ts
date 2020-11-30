@@ -104,7 +104,7 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.cards = this.localStorageService.get('cards');
             this.activeCard = this.cards.length - 1;
         }
-        // this.cards.map((card: ICard) => card.color = this.getRandomColor());
+
         this.commsSubscription = this.comms.addBtnClicked$.subscribe(state => {
             if (state) {
                 this.createNewList();
