@@ -86,6 +86,7 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     isActiveTitleEdit = false;
     @ViewChildren('card') cardsViewChildren: QueryList<ElementRef>;
     @ViewChildren('cardTitle') cardTitleViewChildren: QueryList<ElementRef>;
+    @ViewChildren('cardTitleEdit') cardTitleEditViewChildren: QueryList<ElementRef>;
     @ViewChildren('cardList') cardListViewChildren: QueryList<ElementRef>;
     @ViewChildren('taskItem') taskItemsViewChildren: QueryList<ElementRef>;
     moveY = 0;
@@ -175,9 +176,11 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
      * Toggles into title edit mode.
      * If neccesary, moves cards to incorporate new title height.
      */
-    toggleEditMode(): void {
-        if (this.isActiveTitleEdit) {
+    toggleEditMode(owner: string): void {
+        // console.log(owner, ' toggled edit mode.');
+        if (this.isActiveTitleEdit && owner === 'textarea') {
             // Leave edit mode
+            // console.log('Edit OFF.');
             this.isActiveTitleEdit = false;
             let newTitleHeight: number;
             let diffTitleHeight: number;
@@ -185,10 +188,14 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             newTitleHeight = this.getTitleHeight(this.cardTitleViewChildren.toArray());
             diffTitleHeight = newTitleHeight - this.tempTitleHeight;
             this.moveElementY(this.cardTitleViewChildren.toArray(), this.activeCard, 'height', 'margin', 'title', diffTitleHeight);
-        } else {
+        } else if (!this.isActiveTitleEdit && owner === 'button') {
             // Enter edit mode
+            // console.log('Edit ON.');
             this.isActiveTitleEdit = true;
             this.tempTitleHeight = this.getTitleHeight(this.cardTitleViewChildren.toArray());
+            this.cdRef.detectChanges();
+            const titleEdit: ElementRef[] = this.cardTitleEditViewChildren.toArray();
+            titleEdit[0].nativeElement.focus();
         }
     }
 

@@ -15,6 +15,7 @@
             </h2>
 
             <textarea
+            #cardTitleEdit
             *ngIf="i == activeCard && isActiveTitleEdit"
             rows="1"
             autosize
@@ -22,14 +23,16 @@
             [ngModel]="card.title"
             (ngModelChange)="saveTitleChange($event)"
             (click)="preventClick($event)"
-            (keydown.enter)="toggleEditMode()"
+            (focusout)="toggleEditMode('textarea')"
+            (keydown.enter)="toggleEditMode('textarea')"
             [ngStyle]="{'color': card.color, 'border-bottom': '3px solid '+card.color}">{{ card.title }}</textarea>
 
             <div 
-            class="header-button"
+            class="header-button edit"
             *ngIf="i === activeCard"
+            [ngStyle]="{'opacity': isActiveTitleEdit ? 0 : 1, 'transition': '0.2s', 'pointer-events': isActiveTitleEdit ? 'none' : 'auto'}"
             [@fadeAnimation]
-            (click)="preventClick($event); toggleEditMode()">
+            (click)="preventClick($event); toggleEditMode('button')">
                 <fa-icon [icon]="faEdit"></fa-icon>
             </div>
 
