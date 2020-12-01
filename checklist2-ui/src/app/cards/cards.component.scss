@@ -195,15 +195,15 @@
             }
 
             textarea {
-                // -webkit-text-fill-color: rgba(24, 230, 195, 1);
-                // -webkit-opacity: 1;
-                // opacity: 1;
-                color: rgba(24, 230, 195, 1);
+                -webkit-text-fill-color: var(--muted-text);
+                -webkit-opacity: 1;
+                color: var(--muted-text);
+                opacity: 1;
                 text-decoration: line-through;
 
-                &[disabled='disabled'] {
-                    color: rgba(255, 65, 65, 1);
-                }
+                // &[disabled='disabled'] {
+                //     color: rgba(255, 65, 65, 1);
+                // }
             }
         }
 
