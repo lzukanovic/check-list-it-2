@@ -60,6 +60,10 @@
             flex: 1; 
             background-color: var(--card-bg);
             border: none;
+            -webkit-border-radius: 0;
+            border-radius: 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
             display: block;
             font-family: inherit;
             font-size: inherit;
@@ -150,10 +154,6 @@
                 background-color: var(--card-bg);
                 // background-color: black;
                 border: none;
-                -webkit-border-radius: 0;
-                border-radius: 0;
-                -webkit-box-shadow: none;
-                box-shadow: none;
                 color: var(--text);
                 font-family: inherit;
                 font-size: inherit;
