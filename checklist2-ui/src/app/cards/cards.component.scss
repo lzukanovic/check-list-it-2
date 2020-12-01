@@ -200,8 +200,8 @@
                 // opacity: 1;
                 color: var(--muted-text);
                 text-decoration: line-through;
-                
-                &[disabled] {
+
+                &[disabled='disabled'] {
                     color: var(--muted-text);
                 }
             }
