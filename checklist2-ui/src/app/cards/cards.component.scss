@@ -195,7 +195,8 @@
             }
 
             textarea {
-                color: var(--muted-text) !important;
+                -webkit-text-fill-color: rgba(24, 230, 195, 1);
+                color: var(--text);
                 text-decoration: line-through;
             }
         }
