@@ -198,11 +198,11 @@
                 // -webkit-text-fill-color: rgba(24, 230, 195, 1);
                 // -webkit-opacity: 1;
                 // opacity: 1;
-                color: var(--muted-text);
+                color: rgba(24, 230, 195, 1);
                 text-decoration: line-through;
 
                 &[disabled='disabled'] {
-                    color: var(--muted-text);
+                    color: rgba(255, 65, 65, 1);
                 }
             }
         }
