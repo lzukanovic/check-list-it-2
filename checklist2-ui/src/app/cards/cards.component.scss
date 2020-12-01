@@ -196,11 +196,9 @@
 
             textarea {
                 color: var(--muted-text);
+                opacity: 1;
+                -webkit-opacity: 1;
                 text-decoration: line-through;
-
-                @media screen and (-webkit-min-device-pixel-ratio:0) {
-                    color: var(--muted-text);
-                }
             }
         }
 
