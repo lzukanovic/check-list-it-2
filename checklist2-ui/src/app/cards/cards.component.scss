@@ -195,10 +195,7 @@
             }
 
             textarea {
-                color: rgba(128, 131, 135, 1);
-                opacity: 1;
-                -webkit-opacity: 1;
-                -webkit-text-fill-color: rgba(128, 131, 135, 1); 
+                color: var(--muted-text) !important;
                 text-decoration: line-through;
             }
         }
