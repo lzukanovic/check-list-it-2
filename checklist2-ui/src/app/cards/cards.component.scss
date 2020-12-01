@@ -150,15 +150,16 @@
                 background-color: var(--card-bg);
                 // background-color: black;
                 border: none;
-                border-radius: 0px;
+                -webkit-border-radius: 0;
+                border-radius: 0;
+                -webkit-box-shadow: none;
+                box-shadow: none;
                 color: var(--text);
                 font-family: inherit;
                 font-size: inherit;
                 outline: none;
                 padding: 0;
                 resize: none;
-                -webkit-appearance: none;
-                -webkit-border-radius: 0px;
             }
             
         }
