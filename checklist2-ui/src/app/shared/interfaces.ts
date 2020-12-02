@@ -1,5 +1,6 @@
 export interface ICard {
     title: string;
+    initalTitle: boolean;
     color: string;
     tasks: ITask[];
 }

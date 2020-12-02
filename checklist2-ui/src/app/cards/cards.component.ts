@@ -193,6 +193,10 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             // console.log('Edit ON.');
             this.isActiveTitleEdit = true;
             this.tempTitleHeight = this.getTitleHeight(this.cardTitleViewChildren.toArray());
+            if (this.cards[this.activeCard].initalTitle) {
+                this.saveTitleChange('');
+                this.cards[this.activeCard].initalTitle = false;
+            }
             this.cdRef.detectChanges();
             const titleEdit: ElementRef[] = this.cardTitleEditViewChildren.toArray();
             titleEdit[0].nativeElement.focus();
@@ -348,6 +352,7 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
     createNewList(): void {
         const defaultCard: ICard = {
             title: 'Add your title here',
+            initalTitle: true,
             color: this.getRandomColor(),
             tasks: []
         };
