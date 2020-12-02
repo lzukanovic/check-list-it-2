@@ -34,7 +34,7 @@ export class PwaService {
     }
 
     private openPromptComponent(mobileType: 'ios' | 'android'): void {
-        timer(3000)
+        timer(1500)
         .pipe(take(1))
         .subscribe(() => this.bottomSheet.open(PromptComponent, { data: { mobileType, promptEvent: this.promptEvent } }));
     }
