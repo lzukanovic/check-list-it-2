@@ -1,4 +1,4 @@
-<mat-toolbar *ngIf="data.mobileType === 'android'" color="primary" class="android-prompt">
+<div *ngIf="data.mobileType === 'android'" color="primary" class="android-prompt">
     <div class="prompt-content">
         <img src="./assets/icons/apple-touch-icon.png">
         <div class="prompt-text">
@@ -13,7 +13,7 @@
         <button mat-button (click)="close()">No thanks</button>
         <button mat-button (click)="installPwa()">Install</button>
     </div>
-</mat-toolbar>
+</div>
   
 <div *ngIf="data.mobileType === 'ios'" class="ios-prompt">
     <div class="prompt-content">
