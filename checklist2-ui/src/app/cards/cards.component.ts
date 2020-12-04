@@ -180,8 +180,14 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
         // console.log(owner, ' toggled edit mode.');
         if (this.isActiveTitleEdit && owner === 'textarea') {
             // Leave edit mode
-            // console.log('Edit OFF.');
+            // Check if title was left empty
+            if (this.cards[this.activeCard].title === '') {
+                this.cards[this.activeCard].title = 'Add your title here';
+                this.cards[this.activeCard].initalTitle = true;
+            }
+            // Toggle mode
             this.isActiveTitleEdit = false;
+            // Get new title height and move the cards accordingly
             let newTitleHeight: number;
             let diffTitleHeight: number;
             this.cdRef.detectChanges();
