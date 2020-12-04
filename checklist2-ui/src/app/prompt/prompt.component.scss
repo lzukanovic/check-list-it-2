@@ -7,6 +7,7 @@
 
     .prompt-content {
         display: flex;
+        margin: 0 0 8px;
 
         img {
             border-radius: 12px;
@@ -57,6 +58,9 @@
 
         mat-icon {
             color: var(--muted-text);
+            position: relative;
+            right: -4px;
+            top: -4px;
         }
     }
 
@@ -108,6 +112,7 @@
             h2 {
                 display: block;
                 font-size: 14px;
+                font-weight: inherit;
                 margin: 0 0 5px;
 
                 @media only screen and (min-width: 375px){
