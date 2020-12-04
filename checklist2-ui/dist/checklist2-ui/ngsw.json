@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1607097612022,
+  "timestamp": 1607117062810,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.bcb967f329ead7ecf77a.js",
+        "/main.8c955cf66cfa1a471861.js",
         "/manifest.webmanifest",
         "/polyfills.35a5ca1855eb057f016a.js",
         "/runtime.acf0dec4155e77772545.js",
@@ -44,6 +44,7 @@
         "/assets/icons/icon-512x512.png",
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
+        "/assets/icons/ios_share_icon.svg",
         "/assets/icons/mstile-150x150.png",
         "/assets/icons/safari-pinned-tab.svg"
       ],
@@ -67,11 +68,12 @@
     "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
     "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/icons/ios_share_icon.svg": "7880cd86590501515be171c49b62710e2bcb1bdd",
     "/assets/icons/mstile-150x150.png": "2d9e282c29d4325e3e69857731afc7c316b1aadf",
     "/assets/icons/safari-pinned-tab.svg": "0830f4b20165f2842052ef5afab667dc9c0a51d8",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "02f29d7a2febfda4fdf27fb0437a45bfece6c7ba",
-    "/main.bcb967f329ead7ecf77a.js": "a5fda189429fa490468724f97248fbeccc1c0f97",
+    "/index.html": "65fd0a73b4b04ef72fc06410e8130ea22e9752ea",
+    "/main.8c955cf66cfa1a471861.js": "6a711611a7911ebe21068e5ea5a5e2a944fe5824",
     "/manifest.webmanifest": "52bef3a7ab34df97a138fbd05ea8ed41232ddf57",
     "/polyfills.35a5ca1855eb057f016a.js": "578360d24ce37383f261c7ef63b1f822d28e8dde",
     "/runtime.acf0dec4155e77772545.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",

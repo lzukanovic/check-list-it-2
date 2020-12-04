@@ -177,7 +177,6 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
      * If neccesary, moves cards to incorporate new title height.
      */
     toggleEditMode(owner: string): void {
-        // console.log(owner, ' toggled edit mode.');
         if (this.isActiveTitleEdit && owner === 'textarea') {
             // Leave edit mode
             // Check if title was left empty
@@ -196,13 +195,15 @@ export class CardsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.moveElementY(this.cardTitleViewChildren.toArray(), this.activeCard, 'height', 'margin', 'title', diffTitleHeight);
         } else if (!this.isActiveTitleEdit && owner === 'button') {
             // Enter edit mode
-            // console.log('Edit ON.');
+            // Toggle mode
+            // Get inital title height for change detection later
             this.isActiveTitleEdit = true;
             this.tempTitleHeight = this.getTitleHeight(this.cardTitleViewChildren.toArray());
             if (this.cards[this.activeCard].initalTitle) {
                 this.saveTitleChange('');
                 this.cards[this.activeCard].initalTitle = false;
             }
+            // Input focus
             this.cdRef.detectChanges();
             const titleEdit: ElementRef[] = this.cardTitleEditViewChildren.toArray();
             titleEdit[0].nativeElement.focus();
