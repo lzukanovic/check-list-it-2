@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-    // height: 200px;
 
     .prompt-content {
         display: flex;
@@ -22,12 +21,14 @@
                 height: 65px;
             }
         }
+
         .prompt-text {
-            // padding: 0 10px;
+            padding: 0 10px;
             
             h2 {
                 display: block;
                 font-size: 14px;
+                font-weight: inherit;
                 margin: 0 0 5px;
 
                 @media only screen and (min-width: 375px){
@@ -39,18 +40,23 @@
                     margin: 0 0 8px;
                 }
             }
+
             .prompt-instructions {
                 color: var(--muted-text);
                 display: block;
                 font-size: 14px;
-
-                @media only screen and (min-width: 400px){
+                
+                @media only screen and (min-width: 375px){
                     font-size: 16px;
+                }
+                @media only screen and (min-width: 400px){
+                    font-size: 18px;
                 }
             }
         }
-        button {
-            background-color: inherit;
+
+        mat-icon {
+            color: var(--muted-text);
         }
     }
 
@@ -118,8 +124,11 @@
                 display: block;
                 font-size: 14px;
 
-                @media only screen and (min-width: 400px){
+                @media only screen and (min-width: 375px){
                     font-size: 16px;
+                }
+                @media only screen and (min-width: 400px){
+                    font-size: 18px;
                 }
             }
         }
