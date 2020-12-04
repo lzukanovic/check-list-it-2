@@ -3,15 +3,13 @@
         <img src="./assets/icons/apple-touch-icon.png">
         <div class="prompt-text">
             <h2>Want to install Stackeer?</h2>
-            <div class="prompt-instructions">Add this application to your home screen for quick access</div>
+            <div class="prompt-details">Add this application to your home screen for quick access</div>
         </div>
-        <!-- <button mat-icon-button (click)="close()"> -->
         <mat-icon (click)="close()">close</mat-icon>
-        <!-- </button> -->
     </div>
     <div class="prompt-footer">
         <button mat-button (click)="close()">No thanks</button>
-        <button mat-button (click)="installPwa()">Install</button>
+        <button mat-button (click)="installPwa()">Add to Home screen</button>
     </div>
 </div>
   
@@ -20,10 +18,10 @@
         <img src="./assets/icons/apple-touch-icon.png">
         <div class="prompt-text">
             <h2>Want to install Stackeer?</h2>
-            <div class="prompt-instructions">To install this app, tap the Menu button and then 'Add to Home screen'</div>
+            <div class="prompt-details">Tap the<mat-icon svgIcon="ios_share"></mat-icon>icon bellow and Add to Home screen</div>
         </div>
-    </div>
-    <div class="ios-close" (click)="close()">
-        <fa-icon [icon]="faTimesCircle"></fa-icon>
+        <div class="ios-close" (click)="close()">
+            <fa-icon [icon]="faTimesCircle"></fa-icon>
+        </div>
     </div>
 </div>

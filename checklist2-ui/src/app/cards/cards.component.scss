@@ -249,7 +249,7 @@
     color: var(--text);
     display: flex;
     flex-direction: column;
-    margin-top: 20%;
+    margin-top: 10%;
 
     h2 {
         font-size: 20px;
@@ -265,6 +265,7 @@
 
     img {
         height: 250px;
+        margin-bottom: 10px;
 
         @media only screen and (min-width: 375px) {
             height: 300px;

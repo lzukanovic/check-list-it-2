@@ -7,10 +7,8 @@
         // margin: 2.5rem 1.8rem 0;
         
         @supports(margin: max(0px)) {
-            // header {
-                --safe-area-inset-top: env(safe-area-inset-top);
-                margin: max(2.5rem, calc(var(--safe-area-inset-top) + 20px)) 1.8rem 0;
-            // }
+            --safe-area-inset-top: env(safe-area-inset-top);
+            margin: max(2.5rem, calc(var(--safe-area-inset-top) + 20px)) 1.8rem 0;
         }
         
         @media only screen and (min-width: 500px) {
@@ -23,8 +21,6 @@
     }
     
     main {
-        border-top-left-radius: 35px;
-        border-top-right-radius: 35px;
         min-height: 80vh;
         position: relative;
     }

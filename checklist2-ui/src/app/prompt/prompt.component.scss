@@ -7,7 +7,7 @@
 
     .prompt-content {
         display: flex;
-        margin: 0 0 8px;
+        margin: 0 0 12px;
 
         img {
             border-radius: 12px;
@@ -24,6 +24,7 @@
         }
 
         .prompt-text {
+            flex: 1;
             padding: 0 10px;
             
             h2 {
@@ -42,7 +43,7 @@
                 }
             }
 
-            .prompt-instructions {
+            .prompt-details {
                 color: var(--muted-text);
                 display: block;
                 font-size: 14px;
@@ -82,9 +83,6 @@
     background-color: var(--card-bg);
     border-top-left-radius: 35px;
     border-top-right-radius: 35px;
-    // -webkit-box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
-    // -moz-box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
-    // box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
     color: var(--text);
     display: flex;
     justify-content: space-between;
@@ -107,6 +105,7 @@
         }
 
         .prompt-text {
+            flex: 1;
             padding: 0 10px;
             
             h2 {
@@ -124,7 +123,7 @@
                     margin: 0 0 8px;
                 }
             }
-            .prompt-instructions {
+            .prompt-details {
                 color: var(--muted-text);
                 display: block;
                 font-size: 14px;
@@ -135,22 +134,23 @@
                 @media only screen and (min-width: 400px){
                     font-size: 18px;
                 }
+
+                mat-icon {
+                    height: 18px;
+                }
+            }
+        }
+        
+        .ios-close {
+            color: var(--muted-text);
+            font-size: 1.3rem;
+            position: relative;
+            top: -3px;
+            
+            @media only screen and (min-width: 375px){
+                font-size: 1.5rem;
             }
         }
     }
 
-    .ios-close {
-        color: var(--muted-text);
-        font-size: 1.3rem;
-        position: relative;
-        top: -3px;
-        
-        @media only screen and (min-width: 375px){
-            font-size: 1.5rem;
-        }
-
-        @media only screen and (min-width: 400px){
-            font-size: 1.7rem;
-        }
-    }
 }
