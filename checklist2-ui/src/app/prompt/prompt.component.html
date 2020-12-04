@@ -1,10 +1,18 @@
 <mat-toolbar *ngIf="data.mobileType === 'android'" color="primary" class="android-prompt">
-    <button mat-button (click)="installPwa()">
-      Add to Home screennnn
-    </button>
-    <button mat-icon-button (click)="close()">
-      <mat-icon>close</mat-icon>
-    </button>
+    <div class="prompt-content">
+        <img src="./assets/icons/apple-touch-icon.png">
+        <div class="prompt-text">
+            <h2>Want to install Stackeer?</h2>
+            <div class="prompt-instructions">Add this application to your home screen for quick access</div>
+        </div>
+        <button mat-icon-button (click)="close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="prompt-footer">
+        <button mat-button (click)="close()">No thanks</button>
+        <button mat-button (click)="installPwa()">Install</button>
+    </div>
 </mat-toolbar>
   
 <div *ngIf="data.mobileType === 'ios'" class="ios-prompt">
@@ -12,7 +20,7 @@
         <img src="./assets/icons/apple-touch-icon.png">
         <div class="prompt-text">
             <h2>Want to install Stackeer?</h2>
-            <div class="prompt-instructions">To install this app, tap the Menu button and then 'Add to Home screen'.</div>
+            <div class="prompt-instructions">To install this app, tap the Menu button and then 'Add to Home screen'</div>
         </div>
     </div>
     <div class="ios-close" (click)="close()">

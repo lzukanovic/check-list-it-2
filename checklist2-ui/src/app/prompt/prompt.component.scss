@@ -1,10 +1,79 @@
+.android-prompt {
+    background-color: var(--card-bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    .prompt-content {
+        display: flex;
+
+        img {
+            border-radius: 12px;
+            height: 45px;
+            
+            @media only screen and (min-width: 375px){
+                border-radius: 15px;
+                height: 55px;
+            }
+
+            @media only screen and (min-width: 400px){
+                height: 65px;
+            }
+        }
+        .prompt-text {
+            // padding: 0 10px;
+            
+            h2 {
+                display: block;
+                font-size: 14px;
+                margin: 0 0 5px;
+
+                @media only screen and (min-width: 375px){
+                    font-size: 16px;
+                }
+
+                @media only screen and (min-width: 400px){
+                    font-size: 18px;
+                    margin: 0 0 8px;
+                }
+            }
+            .prompt-instructions {
+                color: var(--muted-text);
+                display: block;
+                font-size: 14px;
+
+                @media only screen and (min-width: 400px){
+                    font-size: 16px;
+                }
+            }
+        }
+        button {
+            background-color: inherit;
+        }
+    }
+
+    .prompt-footer {
+        align-self: flex-end;
+        display: flex;
+
+        button:nth-child(1) {
+            color: var(--muted-text);
+        }
+        button:nth-child(2) {
+            background-color: #1976D2;
+            color: inherit;
+        }
+    }
+}
+
 .ios-prompt {
     background-color: var(--card-bg);
     border-top-left-radius: 35px;
     border-top-right-radius: 35px;
-    -webkit-box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
-    -moz-box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
-    box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
+    // -webkit-box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
+    // -moz-box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
+    // box-shadow: 0px -1px 16px rgba(0,0,0,0.53);
     color: var(--text);
     display: flex;
     justify-content: space-between;
