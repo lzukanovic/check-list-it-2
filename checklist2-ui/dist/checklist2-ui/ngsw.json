@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1607117062810,
+  "timestamp": 1607378062503,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -46,7 +46,16 @@
         "/assets/icons/icon-96x96.png",
         "/assets/icons/ios_share_icon.svg",
         "/assets/icons/mstile-150x150.png",
-        "/assets/icons/safari-pinned-tab.svg"
+        "/assets/icons/safari-pinned-tab.svg",
+        "/assets/splash_screens/apple-launch-1125x2436.png",
+        "/assets/splash_screens/apple-launch-1242x2208.png",
+        "/assets/splash_screens/apple-launch-1242x2688.png",
+        "/assets/splash_screens/apple-launch-1536x2048.png",
+        "/assets/splash_screens/apple-launch-1668x2224.png",
+        "/assets/splash_screens/apple-launch-1668x2388.png",
+        "/assets/splash_screens/apple-launch-2048x2732.png",
+        "/assets/splash_screens/apple-launch-750x1334.png",
+        "/assets/splash_screens/apple-launch-828x1792.png"
       ],
       "patterns": []
     }
@@ -71,8 +80,17 @@
     "/assets/icons/ios_share_icon.svg": "7880cd86590501515be171c49b62710e2bcb1bdd",
     "/assets/icons/mstile-150x150.png": "2d9e282c29d4325e3e69857731afc7c316b1aadf",
     "/assets/icons/safari-pinned-tab.svg": "0830f4b20165f2842052ef5afab667dc9c0a51d8",
+    "/assets/splash_screens/apple-launch-1125x2436.png": "b16ce43d42af26a2ed9c83b2b39a6377564cb375",
+    "/assets/splash_screens/apple-launch-1242x2208.png": "48193cc064016c52239fa378fdc68051845564ee",
+    "/assets/splash_screens/apple-launch-1242x2688.png": "d843745afc9449b063a72ead780cff0a9cb81ab0",
+    "/assets/splash_screens/apple-launch-1536x2048.png": "46ee2ff2e090925095d2edd9bf0ae979a426176b",
+    "/assets/splash_screens/apple-launch-1668x2224.png": "6b59c2699cf8b9032a4aecaf0741112384eb8a69",
+    "/assets/splash_screens/apple-launch-1668x2388.png": "68a6be5f074ce75f0772206bdc0ebe42356f0992",
+    "/assets/splash_screens/apple-launch-2048x2732.png": "d7ef7c242a9804a070bdc657d033b088d3933399",
+    "/assets/splash_screens/apple-launch-750x1334.png": "b0d56494bda0f067434bcc5e4dbbac23ed4a87e5",
+    "/assets/splash_screens/apple-launch-828x1792.png": "a29c67c2e089d3480b33ad19035921dba64fcf21",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "65fd0a73b4b04ef72fc06410e8130ea22e9752ea",
+    "/index.html": "ca5523928998f1ec36f53f4be1a9dad323ed63d2",
     "/main.8c955cf66cfa1a471861.js": "6a711611a7911ebe21068e5ea5a5e2a944fe5824",
     "/manifest.webmanifest": "52bef3a7ab34df97a138fbd05ea8ed41232ddf57",
     "/polyfills.35a5ca1855eb057f016a.js": "578360d24ce37383f261c7ef63b1f822d28e8dde",
